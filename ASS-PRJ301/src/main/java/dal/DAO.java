@@ -5,14 +5,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.util.List;
-import model.Categories;
+import model.Category;
 
 
 public class DAO {
     private static final EntityManagerFactory emf
             = Persistence.createEntityManagerFactory("SUMMER2025");
     
-    public void addStudent(Categories c) {
+    public void addStudent(Category c) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(c);
@@ -20,9 +20,9 @@ public class DAO {
         em.close();
     }
 
-    public List<Categories> getCategories() {
+    public List<Category> getCategories() {
         EntityManager em = emf.createEntityManager();
-        List<Categories> list = em.createQuery("SELECT c FROM Categories c", Categories.class).getResultList();
+        List<Category> list = em.createQuery("SELECT c FROM Category c", Category.class).getResultList();
         em.close();
         return list;
     }
