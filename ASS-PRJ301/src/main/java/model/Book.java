@@ -20,6 +20,7 @@ public class Book {
     private String description;
     private String status;
     private Long version;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "CategoryId")
@@ -34,7 +35,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, String code, String title, String isbn, Float price, Integer stockQty, Integer minStock, String coverUrl, String description, String status, Long version, Category category, Publisher publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Long id, String code, String title, String isbn, Float price, Integer stockQty, Integer minStock, String coverUrl, String description, String status, Long version, String image, Category category, Publisher publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.code = code;
         this.title = title;
@@ -46,6 +47,7 @@ public class Book {
         this.description = description;
         this.status = status;
         this.version = version;
+        this.image = image;
         this.category = category;
         this.publisher = publisher;
         this.createdAt = createdAt;
@@ -140,6 +142,14 @@ public class Book {
         this.version = version;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -171,7 +181,6 @@ public class Book {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
     
     
 }
