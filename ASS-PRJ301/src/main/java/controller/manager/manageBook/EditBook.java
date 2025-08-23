@@ -76,11 +76,12 @@ public class EditBook extends HttpServlet {
             String status = request.getParameter("status");
             
             book = bookDao.getBookById(bookId);
-            book.setId(bookId);
             book.setCode(code);
             book.setTitle(title);
             book.setIsbn(isbn);
+            book.setPrice(priceBook);
             book.setStockQty(stockQtyBook);
+            book.setMinStock(book.getMinStock());
             book.setCoverUrl(coverUrl);
             book.setDescription(description);
             book.setStatus(status);

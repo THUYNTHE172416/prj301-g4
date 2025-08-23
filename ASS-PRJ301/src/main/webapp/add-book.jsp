@@ -9,24 +9,25 @@
 
 <div class="card shadow-sm">
     <div class="card-body">
-        <form action="/ass-g6/add-book" method="post" enctype="multipart/form-data">
+        <form action="/ass-g6/add-new-book" method="post" >
 
+            <!--code, isbn, title-->
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">Mã sách</label>
                     <input type="text" name="code" class="form-control" placeholder="Nhập mã sách" required />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">ISBN</label>
                     <input type="text" name="isbn" class="form-control" placeholder="Nhập ISBN"/>
                 </div>
+                <div class="col-md">
+                    <label class="form-label fw-bold">Tên sách</label>
+                    <input type="text" name="title" class="form-control" placeholder="Nhập tên sách" required />
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Tên sách</label>
-                <input type="text" name="title" class="form-control" placeholder="Nhập tên sách" required />
-            </div>
-
+            <!--price, stockQty and minStock-->
             <div class="row mb-3">
                 <div class="col-md">
                     <label class="form-label fw-bold">Giá bán</label>
@@ -42,8 +43,9 @@
                 </div>
             </div>
 
+            <!--categoryId, publisherId, coverUrl-->
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">Thể loại</label>
                     <select name="categoryId" class="form-select" required>
                         <option value="">-- Chọn thể loại --</option>
@@ -52,27 +54,38 @@
                         </c:forEach>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">Nhà xuất bản</label>
                     <select name="publisherId" class="form-select">
                         <option value="">-- Chọn NXB --</option>
-                        <c:forEach var="pub" items="${listPublisher}">
+                        <c:forEach var="pub" items="${publisherList}">
                             <option value="${pub.id}">${pub.name}</option>
                         </c:forEach>
                     </select>
                 </div>
+                <div class="col-md">
+                    <label class="form-label fw-bold">Ảnh bìa</label>
+                    <input type="text" name="coverUrl"  class="form-control" placeholder="Nhập url hình ảnh"/>
+                </div>
             </div>
 
+            <!--author-->
             <div class="mb-3">
-                <label class="form-label fw-bold">Ảnh bìa</label>
-                <input type="text" name="coverUrl"  class="form-control" />
+                <label class="form-label fw-bold">Tác giả</label>
+                <div>
+                    <c:forEach var="author" items="${authorList}">
+                        <input name="author" type="checkbox" value="${author.id}" /> <span>${author.name}</span><br/>
+                    </c:forEach>
+                </div>
             </div>
 
+            <!--description-->
             <div class="mb-3">
                 <label class="form-label fw-bold">Mô tả</label>
                 <textarea name="description" rows="4" class="form-control"></textarea>
             </div>
 
+            <!--status-->
             <div class="mb-3">
                 <label class="form-label fw-bold">Trạng thái</label>
                 <select name="status" class="form-select">
@@ -103,9 +116,8 @@
         Swal.fire({
             icon: 'error',
             title: 'Lỗi',
-            text: '${error}',
-            timer: 2000,
-            showConfirmButton: false
+            html: '${error}',
+            confirmButtonText: 'OK'
         });
     </script>
 </c:if>
