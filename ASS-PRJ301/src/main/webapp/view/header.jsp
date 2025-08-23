@@ -56,7 +56,7 @@
 <div class="sidebar">
     <h5 class="text-white text-center">📚 BookStore</h5>
     <a href="${ctx}/dashboard.jsp" class="${active eq 'dashboard' ? 'active' : ''}">🏠 Tổng quan</a>
-    <a href="${ctx}/book.jsp" class="${active eq 'books' ? 'active' : ''}">📖 Danh mục sách</a>
+    <a href="${ctx}/management-book" class="${active eq 'books' ? 'active' : ''}">📖 Quản lý sách</a>
     <a href="${ctx}/pos.jsp" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <a href="${ctx}/inventory.jsp" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
