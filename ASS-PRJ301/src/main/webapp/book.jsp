@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-    request.setAttribute("pageTitle", "Danh mục sách");
+    request.setAttribute("pageTitle", "Quản lý sách");
     request.setAttribute("active", "books");
 %>
 <%@ include file="view/header.jsp" %>
@@ -8,11 +8,12 @@
 <h2 class="mb-4">📖 Danh mục sách</h2>
 
 <div class="d-flex justify-content-between mb-3">
-    <form class="d-flex" style="max-width: 400px;">
-        <input type="text" class="form-control me-2" placeholder="Tìm theo tên / tác giả / thể loại">
-        <button class="btn btn-outline-primary">Tìm</button>
+    <form action="management-book" method="post" class="d-flex" style="max-width: 400px;">
+        <input name="search" id="txtSearch" type="text" class="form-control me-2" 
+               placeholder="Tìm theo tên sách/mã sách"/>
+        <button type="submit" name="btnSearch" class="btn btn-outline-primary">Tìm</button>
     </form>
-    <a href="#" class="btn btn-success">+ Thêm sách</a>
+    <a href="/add-new-book" class="btn btn-success">+ Thêm sách</a>
 </div>
 
 <table class="table table-striped table-hover align-middle">
@@ -29,56 +30,59 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>B001</td>
-            <td><img src="" alt="Java" /></td>
-            <td>Java Cơ Bản</td>
-            <td>Nguyễn Văn A</td>
-            <td>Lập trình</td>
-            <td>120,000 đ</td>
-            <td>15</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-primary">Sửa</a>
-                <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-            </td>
-        </tr>
-        <tr>
-            <td>B002</td>
-            <td><img src="" alt="Spring Boot" /></td>
-            <td>Spring Boot Nâng Cao</td>
-            <td>Trần Thị B</td>
-            <td>Lập trình</td>
-            <td>180,000 đ</td>
-            <td>5</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-primary">Sửa</a>
-                <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-            </td>
-        </tr>
-        <tr>
-            <td>B003</td>
-            <td><img src="" alt="Truyện Kiều" /></td>
-            <td>Truyện Kiều</td>
-            <td>Nguyễn Du</td>
-            <td>Văn học</td>
-            <td>95,000 đ</td>
-            <td>30</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-primary">Sửa</a>
-                <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-            </td>
-        </tr>
+        <c:forEach var="c" items="${listBook}">
+            <tr>
+                <td>${c.code}</td>
+                <td><img src="${c.coverUrl}" alt="Java" /></td>
+                <td>${c.title}</td>
+                <td>${dao.getAllAuthorByBookId(c.id)}</td>
+                <td>${c.category.name}</td>
+                <td>${c.price}</td>
+                <td>${c.stockQty}</td>
+
+                <td>
+                    <c:if test="${c.status eq 'ACTIVE'}">
+                        <a href="/ass-g6/edit-book?id=${c.id}" class="btn btn-sm btn-primary">Sửa</a>
+                        <a href="/ass-g6/management-book?id=${c.id}&mode=2" class="btn btn-sm btn-danger">Xóa</a>
+                    </c:if>
+                </td>
+
+
+            </tr>
+        </c:forEach>
+
     </tbody>
 </table>
 
-</div> <!-- đóng .content mở ở headerMenu.jsp -->
-
 <!-- Footer & JS -->
 <footer class="bg-dark text-white-50 py-3 mt-4">
-  <div class="container small text-center">
-    © 2025 BookStore
-  </div>
+    <div class="container small text-center">
+        © 2025 BookStore
+    </div>
 </footer>
 <script src=""></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty error}">
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: '${error}', // lấy nội dung error từ server
+            confirmButtonText: 'OK'
+        });
+    </script>
+</c:if>
+
+<c:if test="${not empty success}">
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '${success}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+</c:if>
 </body>
 </html>

@@ -1,4 +1,9 @@
-D:\G6-PRJ301\ASS-PRJ301\src\main\java\dal\DAO.java
-D:\G6-PRJ301\ASS-PRJ301\src\main\java\model\Categories.java
-D:\G6-PRJ301\ASS-PRJ301\src\main\java\controller\CategoryServlet.java
-D:\G6-PRJ301\ASS-PRJ301\src\main\java\model\Product.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\dal\DAO.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\model\Category.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\model\Book.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\controller\manager\manageBook\BookController.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\model\Publisher.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\controller\CategoryServlet.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\dal\BookDAO.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\model\Author.java
+D:\prj301-g4\ASS-PRJ301\src\main\java\model\BookAuthor.java
