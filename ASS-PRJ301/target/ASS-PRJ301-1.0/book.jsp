@@ -13,7 +13,7 @@
                placeholder="Tìm theo tên sách/mã sách"/>
         <button type="submit" name="btnSearch" class="btn btn-outline-primary">Tìm</button>
     </form>
-    <a href="/add-new-book" class="btn btn-success">+ Thêm sách</a>
+    <a href="/ass-g6/add-new-book" class="btn btn-success">+ Thêm sách</a>
 </div>
 
 <table class="table table-striped table-hover align-middle">
@@ -33,7 +33,7 @@
         <c:forEach var="c" items="${listBook}">
             <tr>
                 <td>${c.code}</td>
-                <td><img src="${c.coverUrl}" alt="Java" /></td>
+                <td><img src="${c.coverUrl}" alt="${c.title}" height="70px" style="object-fit: contain"/></td>
                 <td>${c.title}</td>
                 <td>${dao.getAllAuthorByBookId(c.id)}</td>
                 <td>${c.category.name}</td>

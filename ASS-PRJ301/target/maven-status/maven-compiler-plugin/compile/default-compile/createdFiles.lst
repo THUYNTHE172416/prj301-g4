@@ -3,7 +3,9 @@ model\Author.class
 model\Publisher.class
 dal\DAO.class
 model\Category.class
+controller\manager\manageBook\EditBook.class
 model\Book.class
 model\BookAuthor.class
 controller\CategoryServlet.class
 dal\BookDAO.class
+dal\CategoryDAO.class

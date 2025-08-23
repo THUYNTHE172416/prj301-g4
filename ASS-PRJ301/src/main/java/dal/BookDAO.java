@@ -52,7 +52,14 @@ public class BookDAO {
                 .collect(Collectors.joining(", "));
     }
 
-    public Book getById(int bookId) {
+    public Book getBookById(int bookId) {
+        EntityManager em = emf.createEntityManager();
+        Book b = em.find(Book.class, bookId);
+        em.close();
+        return b;
+    }
+    
+    public Book getBookById(Long bookId) {
         EntityManager em = emf.createEntityManager();
         Book b = em.find(Book.class, bookId);
         em.close();
@@ -62,9 +69,17 @@ public class BookDAO {
     public void deleteBook(int bookId) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Book b = getById(bookId);
+        Book b = getBookById(bookId);
         b.setStatus("INACTIVE");
         em.merge(b);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void updateBook(Book book) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(book);
         em.getTransaction().commit();
         em.close();
     }
