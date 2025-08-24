@@ -55,9 +55,9 @@ public class Order {
     }
 
     public Order(Long id, String orderCode, LocalDateTime orderDate, String status,
-            String paymentMethod, String paymentStatus, String note,
-            Float total, Float discount, Float grandTotal,
-            Long cashierUserId, Long customerId) {
+                 String paymentMethod, String paymentStatus, String note,
+                 Float total, Float discount, Float grandTotal,
+                 Long cashierUserId, Long customerId) {
         this.id = id;
         this.orderCode = orderCode;
         this.orderDate = orderDate;

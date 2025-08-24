@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import model.Author;
 import model.Book;
+import model.BookAuthor;
 
 /**
  *
@@ -52,7 +53,14 @@ public class BookDAO {
                 .collect(Collectors.joining(", "));
     }
 
-    public Book getById(int bookId) {
+    public Book getBookById(int bookId) {
+        EntityManager em = emf.createEntityManager();
+        Book b = em.find(Book.class, bookId);
+        em.close();
+        return b;
+    }
+
+    public Book getBookById(Long bookId) {
         EntityManager em = emf.createEntityManager();
         Book b = em.find(Book.class, bookId);
         em.close();
@@ -62,10 +70,65 @@ public class BookDAO {
     public void deleteBook(int bookId) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Book b = getById(bookId);
+        Book b = getBookById(bookId);
         b.setStatus("INACTIVE");
         em.merge(b);
         em.getTransaction().commit();
         em.close();
     }
+
+    public void updateBook(Book book) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(book);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void addNewBook(Book book, String[] authorId) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.persist(book);
+            em.flush(); // để có id cho book
+
+            for (String idAuthor : authorId) {
+                long id = Long.parseLong(idAuthor);
+                Author author = em.find(Author.class, id);
+                if (author == null) {
+                    throw new IllegalArgumentException("Author not found: " + id);
+                }
+                BookAuthor bookAuthor = new BookAuthor();
+                bookAuthor.setBook(book);
+                bookAuthor.setAuthor(author);
+                em.persist(bookAuthor);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Book> getAllBookByKeyword(String search) {
+        // khoi tao entity manager de thao tac voi db
+        EntityManager em = emf.createEntityManager();
+        // lay het tat ca giu lieu bang book
+        List<Book> data = em.createQuery(
+                "SELECT b FROM Book b WHERE b.status = :status and (b.title like :kw or b.code like :kw)",
+                Book.class
+        )
+                .setParameter("status", "ACTIVE")
+                .setParameter("kw", "%" + search + "%")
+                .getResultList();
+
+        em.close();
+        return data;
+    }
+
 }

@@ -244,16 +244,14 @@
                     <hr/>
 
                     <form method="post" action="checkout" class="d-flex gap-2">
-  <input type="hidden" name="action" value="applyPromo"/>
-  <input type="text" name="promoCode" class="form-control" placeholder="Nhập mã giảm giá…" />
-  <button class="btn btn-outline-primary">Áp dụng</button>
-  <a class="btn btn-outline-secondary" href="checkout?action=removePromo">Bỏ mã</a>
-</form>
-
-<c:if test="${not empty discountLabel}">
-  <div class="text-muted small mt-1">${discountLabel}</div>
-</c:if>
-
+                        <input type="hidden" name="action" value="applyPromo"/>
+                        <input type="text" name="promoCode" class="form-control" placeholder="Nhập mã giảm giá…" />
+                        <button class="btn btn-outline-primary">Áp dụng</button>
+                        <a class="btn btn-outline-secondary" href="checkout?action=removePromo">Bỏ mã</a>
+                    </form>
+                    <c:if test="${not empty discountLabel}">
+                        <div class="text-muted small mt-1">${discountLabel}</div>
+                    </c:if>
 
                     <div class="d-flex justify-content-between">
                         <span>Tạm tính</span>
