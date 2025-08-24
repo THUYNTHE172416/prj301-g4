@@ -9,50 +9,64 @@
 
 <div class="d-flex justify-content-between mb-3">
     <form action="management-book" method="post" class="d-flex" style="max-width: 400px;">
-        <input name="search" id="txtSearch" type="text" class="form-control me-2" 
+        <input name="search" value="${search}" id="txtSearch" type="search" class="form-control me-2" 
                placeholder="Tìm theo tên sách/mã sách"/>
         <button type="submit" name="btnSearch" class="btn btn-outline-primary">Tìm</button>
     </form>
-    <a href="/add-new-book" class="btn btn-success">+ Thêm sách</a>
+    <a href="/ass-g6/add-new-book" class="btn btn-success">+ Thêm sách</a>
 </div>
 
-<table class="table table-striped table-hover align-middle">
-    <thead class="table-dark">
+<table class="table table-striped table-hover align-middle shadow-sm rounded">
+    <thead class="table-dark text-center">
         <tr>
-            <th>Mã sách</th>
-            <th>Ảnh bìa</th>
-            <th>Tên sách</th>
-            <th>Tác giả</th>
-            <th>Thể loại</th>
-            <th>Giá bán</th>
-            <th>Số lượng</th>
-            <th>Hành động</th>
+            <th class="col-md-1">Mã sách</th>
+            <th class="col-md-2">Ảnh bìa</th>
+            <th class="col-md">Tên sách</th>
+            <th class="col-md">Tác giả</th>
+            <th class="col-md-1">Thể loại</th>
+            <th class="col-md-1">Giá bán</th>
+            <th class="col-md-1">Số lượng</th>
+            <th class="col-md-2">Hành động</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach var="c" items="${listBook}">
-            <tr>
+            <tr class="text-center">
                 <td>${c.code}</td>
-                <td><img src="${c.coverUrl}" alt="Java" /></td>
-                <td>${c.title}</td>
-                <td>${dao.getAllAuthorByBookId(c.id)}</td>
+                <td>
+                    <img src="${c.coverUrl}" 
+                         alt="${c.title}" 
+                         class="img-fluid rounded border" 
+                         style="max-height:120px; object-fit:contain"/>
+                </td>
+                <td class="text-start fw-semibold">${c.title}</td>
+                <td class="text-start">${dao.getAllAuthorByBookId(c.id)}</td>
                 <td>${c.category.name}</td>
-                <td>${c.price}</td>
-                <td>${c.stockQty}</td>
-
+                <td class="fw-bold text-success">
+                    ${c.price}₫
+                </td>
+                <td>
+                    <span class="badge bg-info text-dark">${c.stockQty}</span>
+                </td>
                 <td>
                     <c:if test="${c.status eq 'ACTIVE'}">
-                        <a href="/ass-g6/edit-book?id=${c.id}" class="btn btn-sm btn-primary">Sửa</a>
-                        <a href="/ass-g6/management-book?id=${c.id}&mode=2" class="btn btn-sm btn-danger">Xóa</a>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="/ass-g6/edit-book?id=${c.id}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </a>
+                            <a href="/ass-g6/management-book?id=${c.id}&mode=2" 
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa sách này?')">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </div>
                     </c:if>
                 </td>
-
-
             </tr>
         </c:forEach>
-
     </tbody>
 </table>
+
 
 <!-- Footer & JS -->
 <footer class="bg-dark text-white-50 py-3 mt-4">

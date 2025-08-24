@@ -18,6 +18,8 @@ public class Category {
 
     @Lob
     private String description;
+    
+    private String status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,13 +28,22 @@ public class Category {
     public Category() {
     }
 
-    public Category(Long id, String name, String slug, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Category(Long id, String name, String slug, String description, String status, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
+        this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {
