@@ -57,10 +57,12 @@
     <h5 class="text-white text-center">📚 BookStore</h5>
     <a href="${ctx}/dashboard.jsp" class="${active eq 'dashboard' ? 'active' : ''}">🏠 Tổng quan</a>
     <a href="${ctx}/management-book" class="${active eq 'books' ? 'active' : ''}">📖 Quản lý sách</a>
-    <a href="${ctx}/pos.jsp" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
+    <a href="${ctx}/checkout" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <a href="${ctx}/inventory.jsp" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
     <a href="${ctx}/reports.jsp" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
+   <a href="${ctx}/promotion" class="${active eq 'promotion' ? 'active' : ''}">🎟️ Promotion</a>
+
 </div>
 
 <!-- Header -->

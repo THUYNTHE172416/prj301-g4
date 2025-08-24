@@ -100,4 +100,10 @@ public class Customer {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "id=" + id + ", fullName=" + fullName + ", phone=" + phone + ", email=" + email + ", note=" + note + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+    }
+    
 }

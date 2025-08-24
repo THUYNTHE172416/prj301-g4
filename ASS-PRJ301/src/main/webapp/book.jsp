@@ -33,7 +33,7 @@
         <c:forEach var="c" items="${listBook}">
             <tr>
                 <td>${c.code}</td>
-                <td><img src="${c.coverUrl}" alt="Java" /></td>
+                <td><img src="${pageContext.request.contextPath}${c.coverUrl}" alt="Java" /></td>
                 <td>${c.title}</td>
                 <td>${dao.getAllAuthorByBookId(c.id)}</td>
                 <td>${c.category.name}</td>

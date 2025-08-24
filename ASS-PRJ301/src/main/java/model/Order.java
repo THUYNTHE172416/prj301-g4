@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
@@ -43,13 +41,15 @@ public class Order {
     @Column(name = "GrandTotal")
     private Float grandTotal;
 
-    // Khóa ngoại sang Users (thu ngân)
     @Column(name = "CashierUserId")
     private Long cashierUserId;
 
-    // Khóa ngoại sang Customers
     @Column(name = "CustomerId")
     private Long customerId;
+
+    // Quan hệ tới bảng nối
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderPromotion> orderPromotions = new ArrayList<>();
 
     public Order() {
     }
@@ -70,6 +70,28 @@ public class Order {
         this.grandTotal = grandTotal;
         this.cashierUserId = cashierUserId;
         this.customerId = customerId;
+    }
+
+    // Helper để đồng bộ 2 chiều
+// Helper để đồng bộ 2 chiều
+    public void addPromotion(Promotion p) {
+        OrderPromotion op = new OrderPromotion();
+        op.setOrder(this);
+        op.setPromotion(p);
+        this.orderPromotions.add(op);
+        p.getOrderPromotions().add(op);
+    }
+
+    public void removePromotion(Promotion p) {
+        orderPromotions.removeIf(op -> {
+            boolean match = op.getPromotion() != null && op.getPromotion().equals(p);
+            if (match) {
+                p.getOrderPromotions().remove(op);
+                op.setOrder(null);
+                op.setPromotion(null);
+            }
+            return match;
+        });
     }
 
     // --- Getters & Setters ---
@@ -167,5 +189,13 @@ public class Order {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public List<OrderPromotion> getOrderPromotions() {
+        return orderPromotions;
+    }
+
+    public void setOrderPromotions(List<OrderPromotion> orderPromotions) {
+        this.orderPromotions = orderPromotions;
     }
 }

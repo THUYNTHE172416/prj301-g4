@@ -105,8 +105,8 @@
             icon: 'error',
             title: 'Lỗi',
             text: '${error}',
-            showConfirmButton: false, 
-            timer: 2000               
+            showConfirmButton: false,
+            timer: 2000
         }).then(() => {
             window.location.href = '/management-book';
         });
