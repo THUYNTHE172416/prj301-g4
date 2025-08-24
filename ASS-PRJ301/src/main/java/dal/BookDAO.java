@@ -33,7 +33,7 @@ public class BookDAO {
         em.close();
         return data;
     }
-
+ 
     public String getAllAuthorByBookId(int bookId) {
         // khởi tạo entity manager để thao tác với db
         EntityManager em = emf.createEntityManager();

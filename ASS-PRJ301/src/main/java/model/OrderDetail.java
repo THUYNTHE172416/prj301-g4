@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "OrderDetails")
@@ -22,19 +23,19 @@ public class OrderDetail {
     private Book book;
 
     @Column(name = "UnitPrice", nullable = false)
-    private Float unitPrice;
+    private BigDecimal unitPrice;
 
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "LineTotal", nullable = false)
-    private Float lineTotal;
+    private BigDecimal lineTotal;
 
     public OrderDetail() {
     }
 
     public OrderDetail(Long id, Order order, Book book,
-            Float unitPrice, Integer quantity, Float lineTotal) {
+            BigDecimal unitPrice, Integer quantity, BigDecimal lineTotal) {
         this.id = id;
         this.order = order;
         this.book = book;
@@ -45,12 +46,13 @@ public class OrderDetail {
 
     // ----- Convenience: tự tính lineTotal nếu chưa set -----
     @PrePersist
-    @PreUpdate
-    private void calcLineTotal() {
-        if (unitPrice != null && quantity != null && (lineTotal == null)) {
-            this.lineTotal = unitPrice * quantity;
-        }
+@PreUpdate
+private void calcLineTotal() {
+    if (unitPrice != null && quantity != null && lineTotal == null) {
+        this.lineTotal = unitPrice.multiply(BigDecimal.valueOf(quantity));
     }
+}
+
 
     public Long getId() {
         return id;
@@ -76,11 +78,11 @@ public class OrderDetail {
         this.book = book;
     }
 
-    public Float getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Float unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -92,11 +94,11 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public Float getLineTotal() {
+    public BigDecimal getLineTotal() {
         return lineTotal;
     }
 
-    public void setLineTotal(Float lineTotal) {
+    public void setLineTotal(BigDecimal lineTotal) {
         this.lineTotal = lineTotal;
     }
 }
