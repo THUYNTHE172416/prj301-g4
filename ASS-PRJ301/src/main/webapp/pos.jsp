@@ -238,41 +238,57 @@
                         </div>
 
                         <!-- Khuyến mãi + Tổng tiền (fix cứng) -->
-                        <hr/>
-                        <div class="d-flex justify-content-between">
-                            <span>Tạm tính</span>
-                            <strong class="money"><fmt:formatNumber value="${subtotal}" type="number"/> đ</strong>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Giảm giá</span>
-                            <strong class="money"><fmt:formatNumber value="${discount}" type="number"/> đ</strong>
-                        </div>
-                        <div class="d-flex justify-content-between fs-5 mt-2">
-                            <span>Tổng thanh toán</span>
-                            <strong class="money"><fmt:formatNumber value="${grandTotal}" type="number"/> đ</strong>
-                        </div>
-                        <div class="mt-3 d-flex justify-content-end" style="gap:.5rem">
-                            <form action="checkout" method="post" class="d-inline">
-                                <input type="hidden" name="action" value="clear"/>
-                                <button class="btn btn-outline-secondary"
-                                        onclick="return confirm('Xóa hết giỏ hàng?')">Xóa hết</button>
-                            </form>
-                            <form method="post" action="checkout">
-                                <input type="hidden" name="action" value="pay"/>
-                                <button class="btn btn-success" ${empty cart ? 'disabled' : ''}>
-                                    Xác nhận &amp; In hóa đơn
-                                </button>
-                            </form>
-                        </div>
 
                     </div>
 
-                </div>
-            </div>
+                    <hr/>
 
-            <footer class="text-center small text-muted mt-4">© 2025 BookStore — Demo cố định</footer>
+                    <form method="post" action="checkout" class="d-flex gap-2">
+  <input type="hidden" name="action" value="applyPromo"/>
+  <input type="text" name="promoCode" class="form-control" placeholder="Nhập mã giảm giá…" />
+  <button class="btn btn-outline-primary">Áp dụng</button>
+  <a class="btn btn-outline-secondary" href="checkout?action=removePromo">Bỏ mã</a>
+</form>
+
+<c:if test="${not empty discountLabel}">
+  <div class="text-muted small mt-1">${discountLabel}</div>
+</c:if>
+
+
+                    <div class="d-flex justify-content-between">
+                        <span>Tạm tính</span>
+                        <strong class="money"><fmt:formatNumber value="${subtotal}" type="number"/> đ</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Giảm giá</span>
+                        <strong class="money"><fmt:formatNumber value="${discount}" type="number"/> đ</strong>
+                    </div>
+                    <div class="d-flex justify-content-between fs-5 mt-2">
+                        <span>Tổng thanh toán</span>
+                        <strong class="money"><fmt:formatNumber value="${grandTotal}" type="number"/> đ</strong>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end" style="gap:.5rem">
+                        <form action="checkout" method="post" class="d-inline">
+                            <input type="hidden" name="action" value="clear"/>
+                            <button class="btn btn-outline-secondary"
+                                    onclick="return confirm('Xóa hết giỏ hàng?')">Xóa hết</button>
+                        </form>
+                        <form method="post" action="checkout">
+                            <input type="hidden" name="action" value="pay"/>
+                            <button class="btn btn-success" ${empty cart ? 'disabled' : ''}>
+                                Xác nhận &amp; In hóa đơn
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+        <footer class="text-center small text-muted mt-4">© 2025 BookStore — Demo cố định</footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
