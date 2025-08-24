@@ -41,30 +41,18 @@
           <div class="mb-3">
             <label for="role" class="form-label">Vai trò</label>
             <select id="role" name="role" class="form-select">
-              <option value="STAFF" selected>Nhân viên (STAFF)</option>
-              <option value="OWNER">Chủ cửa hàng (OWNER)</option>
+                  <option value="STAFF" selected>Nhân viên (STAFF)</option>
+                <option value="MANAGER">Chủ cửa hàng (MANAGER)</option>
+                <option value="ADMIN">Quản lý hệ thống (ADMIN)</option>
             </select>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="true" id="remember" name="remember">
-              <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
-            </div>
-            <a href="#" class="small text-decoration-none">Quên mật khẩu?</a>
-          </div>
+        
 
           <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
         </form>
 
-        <!-- Gợi ý tài khoản demo (có thể xoá) -->
-        <div class="mt-4">
-          <div class="small text-uppercase text-muted mb-2">Tài khoản demo</div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-primary" type="button" onclick="prefill('owner','owner123','OWNER')">OWNER</button>
-            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="prefill('staff01','123456','STAFF')">STAFF</button>
-          </div>
-        </div>
+      
 
       </div>
     </div>

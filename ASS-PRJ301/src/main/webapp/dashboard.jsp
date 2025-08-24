@@ -4,6 +4,7 @@
   request.setAttribute("active", "dashboard");
 %>
 <%@ include file="view/header.jsp" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <style>
   /* Tối ưu hiển thị cho dashboard */
@@ -22,9 +23,16 @@
   @media (max-width: 992px){ .kpi-value { font-size: 1.75rem; } }
 </style>
 
+<c:set var="currentUser" value="${sessionScope.currentUser}" />
+
+<c:if test="${currentUser != null}">
+    <div class="alert alert-success mt-4">
+        Chào mừng <c:out value="${currentUser.fullName}"/> . Vai trò của bạn là<c:out value="${currentUser.role}"/>.
+    </div>
+</c:if>
+
 <h2 class="mb-4 d-flex align-items-center gap-2">🏠 Tổng quan hệ thống <span class="badge bg-secondary stat-pill">bản demo</span></h2>
 
-<!-- KPI Tiles -->
 <div class="row g-3">
   <div class="col-12 col-sm-6 col-lg-3">
     <div class="card kpi-card bg-primary text-white">
@@ -64,7 +72,6 @@
   </div>
 </div>
 
-<!-- 2 cột: Đơn gần đây & Sách bán chạy -->
 <div class="row g-3 mt-1">
   <div class="col-lg-7">
     <div class="card card-section">
@@ -150,7 +157,6 @@
   </div>
 </div>
 
-<!-- Hàng dưới: Cảnh báo tồn kho & Timeline -->
 <div class="row g-3 mt-1">
   <div class="col-lg-7">
     <div class="card card-section">
@@ -212,10 +218,7 @@
   </div>
 </div>
 
-</div> <!-- đóng .content mở ở headerMenu.jsp -->
-
-<!-- Footer & JS -->
-<footer class="bg-dark text-white-50 py-3 mt-4">
+</div> <footer class="bg-dark text-white-50 py-3 mt-4">
   <div class="container small text-center">© 2025 BookStore</div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

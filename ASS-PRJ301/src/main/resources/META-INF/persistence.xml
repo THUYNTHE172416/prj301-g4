@@ -6,7 +6,7 @@
 
     <persistence-unit name="SUMMER2025" transaction-type="RESOURCE_LOCAL">
         <!-- Các entity -->
-        <class>model.User</class>
+        <class>model.Users</class>
         <class>model.Category</class>
         <class>model.Publisher</class>
         <class>model.Author</class>
@@ -16,7 +16,7 @@
         <class>model.Customer</class>
         <class>model.Order</class>
         <class>model.OrderDetail</class>
-        <class>model.OrderPromotion</class>
+         <class>model.OrderPromotion</class>
         <class>model.InventoryMovement</class>
 
         <properties>

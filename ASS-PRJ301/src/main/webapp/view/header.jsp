@@ -52,7 +52,6 @@
 </head>
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <h5 class="text-white text-center">📚 BookStore</h5>
     <a href="${ctx}/dashboard.jsp" class="${active eq 'dashboard' ? 'active' : ''}">🏠 Tổng quan</a>
@@ -60,20 +59,24 @@
     <a href="${ctx}/pos.jsp" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <a href="${ctx}/inventory.jsp" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
-    <a href="${ctx}/reports.jsp" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
+     <a href="${ctx}/reports" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
 </div>
 
-<!-- Header -->
 <div class="header">
     <div class="flex-grow-1">
         <strong><c:out value="${pageTitle != null ? pageTitle : 'BookStore'}"/></strong>
     </div>
     <div class="btn-group" role="group">
-    <a href="${ctx}/login.jsp" class="btn btn-sm btn-warning">Đăng nhập</a>
-    <a href="${ctx}/register.jsp" class="btn btn-sm btn-outline-warning">Tạo tài khoản</a>
+        <c:if test="${sessionScope.currentUser != null}">
+            <%-- Hiển thị nút Đăng xuất nếu người dùng đã đăng nhập --%>
+            <a href="${ctx}/auth/logout" class="btn btn-sm btn-danger">Đăng xuất</a>
+        </c:if>
+        <c:if test="${sessionScope.currentUser == null}">
+            <%-- Hiển thị nút Đăng nhập và Đăng ký nếu người dùng chưa đăng nhập --%>
+            <a href="${ctx}/login.jsp" class="btn btn-sm btn-warning">Đăng nhập</a>
+            <a href="${ctx}/register.jsp" class="btn btn-sm btn-outline-warning">Tạo tài khoản</a>
+        </c:if>
+    </div>
 </div>
 
-</div>
-
-<!-- Nội dung chính -->
 <div class="content">

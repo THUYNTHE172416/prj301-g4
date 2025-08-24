@@ -50,15 +50,7 @@
                      placeholder="vd: staff01" required>
             </div>
 
-            <div class="col-md-6">
-              <label class="form-label" for="email">Email</label>
-              <input type="email" class="form-control" id="email" name="email"
-                     placeholder="you@example.com" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="phone">Số điện thoại (tuỳ chọn)</label>
-              <input type="tel" class="form-control" id="phone" name="phone" placeholder="09xxxxxxxx">
-            </div>
+           
 
             <div class="col-md-6">
               <label class="form-label" for="password">Mật khẩu</label>
@@ -80,22 +72,13 @@
               <label class="form-label" for="role">Vai trò</label>
               <select id="role" name="role" class="form-select">
                 <option value="STAFF" selected>Nhân viên (STAFF)</option>
-                <option value="OWNER">Chủ cửa hàng (OWNER)</option>
+                <option value="MANAGER">Chủ cửa hàng (MANAGER)</option>
+                <option value="ADMIN">Quản lý hệ thống (ADMIN)</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label class="form-label" for="displayName">Tên hiển thị (tuỳ chọn)</label>
-              <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Tên hiển thị trên hệ thống">
-            </div>
+          
 
-            <div class="col-12">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="true" id="agree" name="agree" required>
-                <label class="form-check-label" for="agree">
-                  Tôi đồng ý với <a href="#" class="text-decoration-none">Điều khoản</a> & <a href="#" class="text-decoration-none">Chính sách</a>.
-                </label>
-              </div>
-            </div>
+         
 
             <div class="col-12 mt-2">
               <button type="submit" class="btn btn-primary w-100">Tạo tài khoản</button>
@@ -103,16 +86,7 @@
           </div>
         </form>
 
-        <!-- Gợi ý nhanh tài khoản demo (tuỳ chọn, có thể xoá) -->
-        <div class="mt-4">
-          <div class="small text-uppercase text-muted mb-2">Tạo nhanh tài khoản demo</div>
-          <div class="d-flex gap-2 flex-wrap">
-            <button class="btn btn-sm btn-outline-primary" type="button"
-                    onclick="prefill('Nguyễn Chủ','owner','owner@demo.local','0900000000','OWNER')">OWNER</button>
-            <button class="btn btn-sm btn-outline-secondary" type="button"
-                    onclick="prefill('Lê Nhân Viên','staff01','staff01@demo.local','0911111111','STAFF')">STAFF</button>
-          </div>
-        </div>
+       
 
       </div>
     </div>
