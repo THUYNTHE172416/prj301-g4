@@ -57,6 +57,7 @@
     <h5 class="text-white text-center">📚 BookStore</h5>
     <a href="${ctx}/dashboard.jsp" class="${active eq 'dashboard' ? 'active' : ''}">🏠 Tổng quan</a>
     <a href="${ctx}/management-book" class="${active eq 'books' ? 'active' : ''}">📖 Quản lý sách</a>
+    <a href="${ctx}/category" class="${active eq 'categories' ? 'active' : ''}">📂 Quản lý danh mục</a>
     <a href="${ctx}/pos.jsp" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <a href="${ctx}/inventory.jsp" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
@@ -74,6 +75,8 @@
 </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Nội dung chính -->
 <div class="content">

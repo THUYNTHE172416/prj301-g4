@@ -20,11 +20,27 @@ public class CategoryDAO {
         em.close();
         return data;
     }
+    
+    public void addNewCategory(Category c) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(c);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     public Category getCategoryById(int categoryId) {
         EntityManager em = emf.createEntityManager();
         Category category = em.find(Category.class, categoryId);
         em.close();
         return category;
+    }
+    
+    public void updateCategory(Category category) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(category);
+        em.getTransaction().commit();
+        em.close();
     }
 }

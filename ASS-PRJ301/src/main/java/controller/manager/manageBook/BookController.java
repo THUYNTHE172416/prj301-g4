@@ -47,6 +47,16 @@ public class BookController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String search = request.getParameter("search");
+        BookDAO bookDAO = new BookDAO();
+        
+        List<Book> listBook = new ArrayList<>();
+        listBook = bookDAO.getAllBookByKeyword(search);
+        
+        request.setAttribute("dao", bookDAO);
+        request.setAttribute("listBook", listBook);
+        request.setAttribute("search", search);
+        request.getRequestDispatcher("book.jsp").forward(request, response);
     }
     
 }

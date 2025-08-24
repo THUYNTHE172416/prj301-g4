@@ -115,4 +115,20 @@ public class BookDAO {
         }
     }
 
+    public List<Book> getAllBookByKeyword(String search) {
+        // khoi tao entity manager de thao tac voi db
+        EntityManager em = emf.createEntityManager();
+        // lay het tat ca giu lieu bang book
+        List<Book> data = em.createQuery(
+                "SELECT b FROM Book b WHERE b.status = :status and (b.title like :kw or b.code like :kw)",
+                Book.class
+        )
+                .setParameter("status", "ACTIVE")
+                .setParameter("kw", "%" + search + "%")
+                .getResultList();
+
+        em.close();
+        return data;
+    }
+
 }

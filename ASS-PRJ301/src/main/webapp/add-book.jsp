@@ -121,7 +121,6 @@
         });
     </script>
 </c:if>
-
 <c:if test="${not empty success}">
     <script>
         Swal.fire({
