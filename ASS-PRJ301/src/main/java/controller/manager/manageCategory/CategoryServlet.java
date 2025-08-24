@@ -18,6 +18,20 @@ public class CategoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CategoryDAO categoryDAO = new CategoryDAO();
+
+        String id = request.getParameter("id");
+        String mode = request.getParameter("mode");
+
+        if (id != null && mode != null && mode.equals("2")) {
+            try {
+                if (categoryDAO.deleteCategory(Integer.parseInt(id))) {
+                    request.setAttribute("success", "Xóa danh mục thành công");
+                }
+            } catch (Exception e) {
+                request.setAttribute("error", "Lỗi hệ thống không thể xóa danh mục");
+            }
+        }
+
         List<Category> list = categoryDAO.getAllCategory();
         request.setAttribute("data", list);
         request.getRequestDispatcher("/view-list-category.jsp").forward(request, response);
@@ -27,7 +41,7 @@ public class CategoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getServletPath();
-        
+
         try {
             CategoryDAO categoryDAO = new CategoryDAO();
             if (action.equals("/category/store")) {
@@ -44,7 +58,7 @@ public class CategoryServlet extends HttpServlet {
                 category.setDescription(description);
                 category.setCreatedAt(creDatedAt);
                 category.setUpdatedAt(upDatedAt);
-                
+
                 boolean success = categoryDAO.addNewCategory(category);
                 if (success) {
                     request.setAttribute("success", "Thêm danh mục mới thành công");

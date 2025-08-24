@@ -41,6 +41,12 @@
                                     data-description="${cat.description}">
                                 ✏ Sửa
                             </button>
+
+                            <a href="/ass-g6/category?id=${cat.id}&mode=2" 
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');">
+                                🗑 Delete
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -135,12 +141,14 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <c:if test="${not empty error}">
     <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            html: '${error}',
-            confirmButtonText: 'OK'
-        });
+    Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        html: '${error}',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        window.location.href = '/ass-g6/category';
+    });
     </script>
 </c:if>
 <c:if test="${not empty success}">
@@ -151,6 +159,8 @@
             text: '${success}',
             timer: 2000,
             showConfirmButton: false
+        }).then(() => {
+            window.location.href = '/ass-g6/category';
         });
     </script>
 </c:if>

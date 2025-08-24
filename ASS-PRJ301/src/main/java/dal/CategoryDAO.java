@@ -3,7 +3,6 @@ package dal;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.Book;
 import model.Category;
 
 public class CategoryDAO {
@@ -16,7 +15,8 @@ public class CategoryDAO {
         EntityManager em = emf.createEntityManager();
         // lay het tat ca giu lieu bang book
         List<Category> data = em.createQuery(
-                "SELECT c FROM Category c", Category.class)
+                "SELECT c FROM Category c WHERE c.status = :status", Category.class)
+                .setParameter("status", "ACTIVE")
                 .getResultList();
         em.close();
         return data;
@@ -71,6 +71,21 @@ public class CategoryDAO {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+        return false;
+    }
+
+    public boolean deleteCategory(int categoryId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Category category = getCategoryById(categoryId);
+            category.setStatus("INACTIVE");
+            em.getTransaction().begin();
+            em.merge(category);
+            em.getTransaction().commit();
+            em.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return false;
     }
