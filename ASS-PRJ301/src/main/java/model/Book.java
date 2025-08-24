@@ -11,12 +11,12 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
-    private String title;
-    private String isbn;
+    private String title; // ten sach
+    private String isbn; // mã sách
     private Float price;
-    private Integer stockQty;
+    private Integer stockQty; // so luong 
     private Integer minStock;
-    private String coverUrl;
+    private String coverUrl; // image
     private String description;
     private String status;
     private Long version;
@@ -171,7 +171,11 @@ public class Book {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Book{" + "id=" + id + ", code=" + code + ", title=" + title + ", isbn=" + isbn + ", price=" + price + ", stockQty=" + stockQty + ", minStock=" + minStock + ", coverUrl=" + coverUrl + ", description=" + description + ", status=" + status + ", version=" + version + ", category=" + category + ", publisher=" + publisher + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+    }
     
     
 }

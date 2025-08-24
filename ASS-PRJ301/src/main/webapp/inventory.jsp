@@ -2,6 +2,7 @@
 <%@ taglib prefix="c"  uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%-- header.jsp của bạn giữ nguyên --%>
+<c:set var="pageTitle" value="Tồn kho"/>
 <%@ include file="view/header.jsp" %>
 
 <h2 class="mb-3">📦 Tồn kho</h2>

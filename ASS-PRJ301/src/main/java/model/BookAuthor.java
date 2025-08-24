@@ -1,36 +1,24 @@
 package model;
 import jakarta.persistence.*;
-
 @Entity
-@Table(name="BookAuthors")
+@IdClass(BookAuthorId.class)
+@Table(name = "BookAuthors")
 public class BookAuthor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     @ManyToOne
     @JoinColumn(name = "BookId")
     private Book book;
-    
+
+    @Id
     @ManyToOne
     @JoinColumn(name = "AuthorId")
     private Author author;
 
-    public BookAuthor() {
-    }
+    public BookAuthor() {}
 
-    public BookAuthor(Long id, Book book, Author author) {
-        this.id = id;
+    public BookAuthor(Book book, Author author) {
         this.book = book;
         this.author = author;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Book getBook() {
@@ -48,6 +36,4 @@ public class BookAuthor {
     public void setAuthor(Author author) {
         this.author = author;
     }
-    
-    
 }

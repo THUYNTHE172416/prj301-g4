@@ -32,11 +32,14 @@
     <h5 class="text-white text-center">📚 BookStore</h5>
     <a href="${ctx}/dashboard.jsp" class="${active eq 'dashboard' ? 'active' : ''}">🏠 Tổng quan</a>
     <a href="${ctx}/management-book" class="${active eq 'books' ? 'active' : ''}">📖 Quản lý sách</a>
-    <a href="${ctx}/pos.jsp" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
+    <a href="${ctx}/category" class="${active eq 'categories' ? 'active' : ''}">📂 Quản lý danh mục</a>
+    <a href="${ctx}/checkout" class="${active eq 'pos' ? 'active' : ''}">💳 Bán hàng</a>
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <!-- Đổi sang servlet -->
     <a href="${ctx}/inventory" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
     <a href="${ctx}/reports.jsp" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
+   <a href="${ctx}/promotion" class="${active eq 'promotion' ? 'active' : ''}">🎟️ Promotion</a>
+
 </div>
 
 <div class="header">
@@ -47,4 +50,9 @@
     </div>
 </div>
 
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Nội dung chính -->
 <div class="content">
