@@ -45,7 +45,12 @@ public class CategoryServlet extends HttpServlet {
                 category.setCreatedAt(creDatedAt);
                 category.setUpdatedAt(upDatedAt);
                 
-                categoryDAO.addNewCategory(category);
+                boolean success = categoryDAO.addNewCategory(category);
+                if (success) {
+                    request.setAttribute("success", "Thêm danh mục mới thành công");
+                } else {
+                    request.setAttribute("error", "Lỗi hệ thống không thể thêm danh mục mới do trùng tên danh mục hoặc slug");
+                }
             } else if (action.equals("/category/update")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Category category = categoryDAO.getCategoryById(id);
@@ -59,8 +64,12 @@ public class CategoryServlet extends HttpServlet {
                 category.setSlug(slug);
                 category.setDescription(description);
                 category.setCreatedAt(upDatedAt);
-                
-                categoryDAO.updateCategory(category);
+                boolean success = categoryDAO.updateCategory(category);
+                if (success) {
+                    request.setAttribute("success", "Cập nhật danh mục mới thành công");
+                } else {
+                    request.setAttribute("error", "Lỗi hệ thống không thể cập nhật danh do trùng tên danh mục hoặc slug");
+                }
             }
         } catch (Exception e) {
             // Xử lý lỗi: Có thể gửi thông báo lỗi về client

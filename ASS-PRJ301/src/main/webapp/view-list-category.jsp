@@ -130,3 +130,27 @@
         document.getElementById('edit-description').value = description;
     });
 </script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty error}">
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            html: '${error}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+</c:if>
+<c:if test="${not empty success}">
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '${success}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+</c:if>

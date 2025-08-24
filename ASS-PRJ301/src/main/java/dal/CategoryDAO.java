@@ -1,6 +1,7 @@
 package dal;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import model.Book;
 import model.Category;
@@ -20,13 +21,36 @@ public class CategoryDAO {
         em.close();
         return data;
     }
-    
-    public void addNewCategory(Category c) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(c);
-        em.getTransaction().commit();
-        em.close();
+
+    private boolean checkValid(Category c) {
+        List<Category> data = new ArrayList<>();
+
+        try (EntityManager em = emf.createEntityManager()) {
+            data = em.createQuery(
+                    "SELECT c FROM Category c "
+                    + "WHERE (c.name = :name OR c.slug = :slug) "
+                    + "AND c.id <> :id",
+                    Category.class)
+                    .setParameter("name", c.getName())
+                    .setParameter("slug", c.getSlug())
+                    .setParameter("id", c.getId() == null ? -1L : c.getId())
+                    .getResultList();
+        }
+        return !data.isEmpty();
+    }
+
+    public boolean addNewCategory(Category c) {
+        if (!checkValid(c)) {
+            try (EntityManager em = emf.createEntityManager()) {
+                em.getTransaction().begin();
+                em.persist(c);
+                em.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
     }
 
     public Category getCategoryById(int categoryId) {
@@ -35,12 +59,19 @@ public class CategoryDAO {
         em.close();
         return category;
     }
-    
-    public void updateCategory(Category category) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(category);
-        em.getTransaction().commit();
-        em.close();
+
+    public boolean updateCategory(Category category) {
+        if (!checkValid(category)) {
+            try (EntityManager em = emf.createEntityManager()) {
+                em.getTransaction().begin();
+                em.merge(category);
+                em.getTransaction().commit();
+                em.close();
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
     }
 }
