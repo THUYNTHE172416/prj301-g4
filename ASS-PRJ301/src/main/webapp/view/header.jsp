@@ -37,19 +37,28 @@
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <!-- Đổi sang servlet -->
     <a href="${ctx}/inventory" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
-    <a href="${ctx}/reports.jsp" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
+    <a href="${ctx}/Report" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
    <a href="${ctx}/promotion" class="${active eq 'promotion' ? 'active' : ''}">🎟️ Promotion</a>
 
 </div>
 
+
 <div class="header">
-    <div class="flex-grow-1"><strong><c:out value="${pageTitle != null ? pageTitle : 'BookStore'}"/></strong></div>
+    <div class="flex-grow-1">
+        <strong><c:out value="${pageTitle != null ? pageTitle : 'BookStore'}"/></strong>
+    </div>
     <div class="btn-group" role="group">
-        <a href="${ctx}/login.jsp" class="btn btn-sm btn-warning">Đăng nhập</a>
-        <a href="${ctx}/register.jsp" class="btn btn-sm btn-outline-warning">Tạo tài khoản</a>
+        <c:if test="${sessionScope.currentUser != null}">
+            <%-- Hiển thị nút Đăng xuất nếu người dùng đã đăng nhập --%>
+            <a href="${ctx}/auth/logout" class="btn btn-sm btn-danger">Đăng xuất</a>
+        </c:if>
+        <c:if test="${sessionScope.currentUser == null}">
+            <%-- Hiển thị nút Đăng nhập và Đăng ký nếu người dùng chưa đăng nhập --%>
+            <a href="${ctx}/login.jsp" class="btn btn-sm btn-warning">Đăng nhập</a>
+            <a href="${ctx}/register.jsp" class="btn btn-sm btn-outline-warning">Tạo tài khoản</a>
+        </c:if>
     </div>
 </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
