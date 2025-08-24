@@ -21,21 +21,18 @@ public class ReportServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Users currentUser = (Users) session.getAttribute("currentUser");
 
-//        // 1. Kiểm tra trạng thái đăng nhập
-//        if (currentUser == null) {
-//            response.sendRedirect(request.getContextPath() + "/login.jsp");
-//            return;
-//        }
-
-        // 2. Kiểm tra vai trò người dùng
-//        String userRole = currentUser.getRole();
-//        if (!"manager".equalsIgnoreCase(userRole) && !"admin".equalsIgnoreCase(userRole)) {
-//            // Chuyển hướng hoặc hiển thị thông báo lỗi
-//            request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
-//            request.getRequestDispatcher("/access-denied.jsp").forward(request, response);
-//            return;
-//        }
-
+        // 1. Kiểm tra trạng thái đăng nhập
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        String userRole = currentUser.getRole();
+        if (!"manager".equalsIgnoreCase(userRole) && !"admin".equalsIgnoreCase(userRole)) {
+            // Chuyển hướng hoặc hiển thị thông báo lỗi
+            request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            request.getRequestDispatcher("/access-denied.jsp").forward(request, response);
+            return;
+        }
         // Nếu người dùng đã đăng nhập và có quyền, thực hiện logic lấy dữ liệu
         try {
             request.setAttribute("topSellingBooks", reportDAO.getTopSellingBooks());

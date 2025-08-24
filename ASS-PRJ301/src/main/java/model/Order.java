@@ -41,10 +41,8 @@ public class Order {
     @Column(name = "GrandTotal")
     private Float grandTotal;
 
-    // ĐÃ SỬA: Thiết lập mối quan hệ ManyToOne với bảng Users
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CashierUserId", referencedColumnName = "Id")
-    private Users cashierUser;
+    @Column(name = "CashierUserId")
+    private Long cashierUserId;
 
     @Column(name = "CustomerId")
     private Long customerId;
@@ -57,9 +55,9 @@ public class Order {
     }
 
     public Order(Long id, String orderCode, LocalDateTime orderDate, String status,
-            String paymentMethod, String paymentStatus, String note,
-            Float total, Float discount, Float grandTotal,
-            Users cashierUser, Long customerId) {
+                 String paymentMethod, String paymentStatus, String note,
+                 Float total, Float discount, Float grandTotal,
+                 Long cashierUserId, Long customerId) {
         this.id = id;
         this.orderCode = orderCode;
         this.orderDate = orderDate;
@@ -70,11 +68,12 @@ public class Order {
         this.total = total;
         this.discount = discount;
         this.grandTotal = grandTotal;
-        this.cashierUser = cashierUser;
+        this.cashierUserId = cashierUserId;
         this.customerId = customerId;
     }
 
     // Helper để đồng bộ 2 chiều
+// Helper để đồng bộ 2 chiều
     public void addPromotion(Promotion p) {
         OrderPromotion op = new OrderPromotion();
         op.setOrder(this);
@@ -176,13 +175,12 @@ public class Order {
         this.grandTotal = grandTotal;
     }
 
-    // ĐÃ SỬA: Getter và Setter cho đối tượng Users
-    public Users getCashierUser() {
-        return cashierUser;
+    public Long getCashierUserId() {
+        return cashierUserId;
     }
 
-    public void setCashierUser(Users cashierUser) {
-        this.cashierUser = cashierUser;
+    public void setCashierUserId(Long cashierUserId) {
+        this.cashierUserId = cashierUserId;
     }
 
     public Long getCustomerId() {
