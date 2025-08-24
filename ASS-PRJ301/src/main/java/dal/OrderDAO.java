@@ -179,15 +179,32 @@ public class OrderDAO {
     public List<OrderDetail> findOrderDetails(Long orderId) {
         EntityManager em = emf.createEntityManager();
         try {
-            // Lấy kèm Book để hiển thị (JOIN FETCH)
-            return em.createQuery(
+            // Lấy OrderDetails trước
+            List<OrderDetail> details = em.createQuery(
                     "SELECT od FROM OrderDetail od "
-                    + "JOIN FETCH od.book "
                     + "WHERE od.order.id = :oid "
                     + "ORDER BY od.id",
                     OrderDetail.class
             ).setParameter("oid", orderId)
                     .getResultList();
+            
+            // Load Book cho từng OrderDetail
+            for (OrderDetail detail : details) {
+                if (detail.getBook() != null) {
+                    // Force load Book entity bằng cách gọi getter
+                    Book book = em.find(Book.class, detail.getBook().getId());
+                    if (book != null) {
+                        // Tạo Book mới và set vào detail
+                        Book loadedBook = new Book();
+                        loadedBook.setId(book.getId());
+                        loadedBook.setCode(book.getCode());
+                        loadedBook.setTitle(book.getTitle());
+                        detail.setBook(loadedBook);
+                    }
+                }
+            }
+            
+            return details;
         } finally {
             em.close();
         }
@@ -206,5 +223,160 @@ public List<Order> getAllOrders() {
     }
 }
 
+// Tìm kiếm đơn hàng theo nhiều tiêu chí
+public List<Order> searchOrders(String keyword, String status, String dateFrom, String dateTo) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        StringBuilder jpql = new StringBuilder("SELECT o FROM Order o WHERE 1=1");
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            jpql.append(" AND (o.orderCode LIKE :keyword OR o.note LIKE :keyword)");
+        }
+        
+        if (status != null && !status.trim().isEmpty()) {
+            jpql.append(" AND o.status = :status");
+        }
+        
+        if (dateFrom != null && !dateFrom.trim().isEmpty()) {
+            jpql.append(" AND o.orderDate >= :dateFrom");
+        }
+        
+        if (dateTo != null && !dateTo.trim().isEmpty()) {
+            jpql.append(" AND o.orderDate <= :dateTo");
+        }
+        
+        jpql.append(" ORDER BY o.orderDate DESC");
+        
+        jakarta.persistence.TypedQuery<Order> query = em.createQuery(jpql.toString(), Order.class);
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            query.setParameter("keyword", "%" + keyword.trim() + "%");
+        }
+        
+        if (status != null && !status.trim().isEmpty()) {
+            query.setParameter("status", status.trim());
+        }
+        
+        if (dateFrom != null && !dateFrom.trim().isEmpty()) {
+            query.setParameter("dateFrom", LocalDate.parse(dateFrom).atStartOfDay());
+        }
+        
+        if (dateTo != null && !dateTo.trim().isEmpty()) {
+            query.setParameter("dateTo", LocalDate.parse(dateTo).atTime(23, 59, 59));
+        }
+        
+        return query.getResultList();
+        
+    } finally {
+        em.close();
+    }
+}
+
+// Thống kê tổng số đơn hàng theo ngày
+public int getTotalOrdersByDate(LocalDate date) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        
+        Long count = em.createQuery(
+                "SELECT COUNT(o) FROM Order o WHERE o.orderDate >= :start AND o.orderDate <= :end",
+                Long.class
+        )
+        .setParameter("start", startOfDay)
+        .setParameter("end", endOfDay)
+        .getSingleResult();
+        
+        return count != null ? count.intValue() : 0;
+        
+    } finally {
+        em.close();
+    }
+}
+
+// Thống kê tổng số sách bán ra theo ngày
+public int getTotalBooksSoldByDate(LocalDate date) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        
+        Long totalQuantity = em.createQuery(
+                "SELECT SUM(od.quantity) FROM OrderDetail od " +
+                "JOIN od.order o " +
+                "WHERE o.orderDate >= :start AND o.orderDate <= :end",
+                Long.class
+        )
+        .setParameter("start", startOfDay)
+        .setParameter("end", endOfDay)
+        .getSingleResult();
+        
+        return totalQuantity != null ? totalQuantity.intValue() : 0;
+        
+    } finally {
+        em.close();
+    }
+}
+
+// Thống kê tổng doanh thu theo ngày
+public double getTotalRevenueByDate(LocalDate date) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        
+        Double totalRevenue = em.createQuery(
+                "SELECT SUM(o.grandTotal) FROM Order o " +
+                "WHERE o.orderDate >= :start AND o.orderDate <= :end",
+                Double.class
+        )
+        .setParameter("start", startOfDay)
+        .setParameter("end", endOfDay)
+        .getSingleResult();
+        
+        return totalRevenue != null ? totalRevenue : 0.0;
+        
+    } finally {
+        em.close();
+    }
+}
+
+// Method test để kiểm tra dữ liệu
+public void testOrderDetails(Long orderId) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        // Kiểm tra Order có tồn tại không
+        Order order = em.find(Order.class, orderId);
+        if (order == null) {
+            System.out.println("Order " + orderId + " không tồn tại!");
+            return;
+        }
+        System.out.println("Order found: " + order.getOrderCode());
+        
+        // Kiểm tra OrderDetails
+        List<OrderDetail> details = em.createQuery(
+                "SELECT od FROM OrderDetail od WHERE od.order.id = :oid",
+                OrderDetail.class
+        ).setParameter("oid", orderId).getResultList();
+        
+        System.out.println("Found " + details.size() + " order details");
+        
+        for (OrderDetail detail : details) {
+            System.out.println("Detail ID: " + detail.getId());
+            System.out.println("Book ID from detail: " + detail.getBook().getId());
+            
+            // Kiểm tra Book riêng biệt
+            Book book = em.find(Book.class, detail.getBook().getId());
+            if (book != null) {
+                System.out.println("Book found: " + book.getTitle() + " (" + book.getCode() + ")");
+            } else {
+                System.out.println("Book not found!");
+            }
+        }
+        
+    } finally {
+        em.close();
+    }
+}
 
 }

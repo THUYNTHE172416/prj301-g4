@@ -24,6 +24,35 @@
         <servlet-name>PromotionCotroller</servlet-name>
         <url-pattern>/promotion</url-pattern>
     </servlet-mapping>
+    
+    <!-- Order Management Servlet -->
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>controller.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order-search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order-stats</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Test page mapping -->
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orders-test</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
