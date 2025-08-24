@@ -171,6 +171,11 @@ public class Book {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" + "id=" + id + ", code=" + code + ", title=" + title + ", isbn=" + isbn + ", price=" + price + ", stockQty=" + stockQty + ", minStock=" + minStock + ", coverUrl=" + coverUrl + ", description=" + description + ", status=" + status + ", version=" + version + ", category=" + category + ", publisher=" + publisher + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+    }
     
     
 }

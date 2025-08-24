@@ -34,7 +34,7 @@
             <tr class="text-center">
                 <td>${c.code}</td>
                 <td>
-                    <img src="${c.coverUrl}" 
+                    <img src="${c.coverUrl}"
                          alt="${c.title}" 
                          class="img-fluid rounded border" 
                          style="max-height:120px; object-fit:contain"/>

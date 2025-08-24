@@ -51,7 +51,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderPromotion> orderPromotions = new ArrayList<>();
 
-    public Order() { }
+    public Order() {
+    }
 
     public Order(Long id, String orderCode, LocalDateTime orderDate, String status,
                  String paymentMethod, String paymentStatus, String note,
@@ -72,6 +73,7 @@ public class Order {
     }
 
     // Helper để đồng bộ 2 chiều
+// Helper để đồng bộ 2 chiều
     public void addPromotion(Promotion p) {
         OrderPromotion op = new OrderPromotion();
         op.setOrder(this);
@@ -93,30 +95,107 @@ public class Order {
     }
 
     // --- Getters & Setters ---
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getOrderCode() { return orderCode; }
-    public void setOrderCode(String orderCode) { this.orderCode = orderCode; }
-    public LocalDateTime getOrderDate() { return orderDate; }
-    public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
-    public String getPaymentStatus() { return paymentStatus; }
-    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
-    public String getNote() { return note; }
-    public void setNote(String note) { this.note = note; }
-    public Float getTotal() { return total; }
-    public void setTotal(Float total) { this.total = total; }
-    public Float getDiscount() { return discount; }
-    public void setDiscount(Float discount) { this.discount = discount; }
-    public Float getGrandTotal() { return grandTotal; }
-    public void setGrandTotal(Float grandTotal) { this.grandTotal = grandTotal; }
-    public Long getCashierUserId() { return cashierUserId; }
-    public void setCashierUserId(Long cashierUserId) { this.cashierUserId = cashierUserId; }
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
-    public List<OrderPromotion> getOrderPromotions() { return orderPromotions; }
-    public void setOrderPromotions(List<OrderPromotion> orderPromotions) { this.orderPromotions = orderPromotions; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
+    public Float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
+
+    public Float getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(Float grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
+    public Long getCashierUserId() {
+        return cashierUserId;
+    }
+
+    public void setCashierUserId(Long cashierUserId) {
+        this.cashierUserId = cashierUserId;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public List<OrderPromotion> getOrderPromotions() {
+        return orderPromotions;
+    }
+
+    public void setOrderPromotions(List<OrderPromotion> orderPromotions) {
+        this.orderPromotions = orderPromotions;
+    }
 }
