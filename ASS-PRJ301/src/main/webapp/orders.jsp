@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,8 +152,14 @@
                                                         <strong>${order.orderCode}</strong>
                                                     </td>
                                                     <td>
-                                                        <fmt:formatDate value="${order.orderDate}" 
-                                                                      pattern="dd/MM/yyyy HH:mm"/>
+                                                        <c:choose>
+                                                            <c:when test="${order.orderDate != null}">
+                                                                <c:out value="${order.orderDate}"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span class="text-muted">N/A</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </td>
                                                     <td>
                                                         <span class="badge bg-secondary">
@@ -163,8 +168,7 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-success fw-bold">
-                                                            <fmt:formatNumber value="${order.grandTotal}" 
-                                                                              pattern="#,##0 VND"/>
+                                                            ${order.grandTotal} VND
                                                         </span>
                                                     </td>
                                                     <td>
