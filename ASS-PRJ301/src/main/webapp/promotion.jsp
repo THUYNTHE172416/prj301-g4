@@ -15,7 +15,7 @@
         </style>
     </head>
     <body>
-
+       
         <%@ include file="view/header.jsp" %>
 
         <div class="container py-4">
