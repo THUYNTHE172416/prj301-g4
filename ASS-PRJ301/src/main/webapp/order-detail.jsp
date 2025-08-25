@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,7 +103,7 @@
                             </h2>
                             <p class="mb-0">
                                 <i class="fas fa-calendar"></i> 
-                                Ngày đặt: <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm"/>
+                                Ngày đặt: <c:choose><c:when test="${order.orderDate != null}"><c:out value="${order.orderDate}"/></c:when><c:otherwise><span class="text-muted">N/A</span></c:otherwise></c:choose>
                             </p>
                         </div>
                         <div class="col-md-4 text-end">
@@ -123,7 +122,8 @@
                                 </c:when>
                                 <c:when test="${order.status == 'CANCELLED'}">
                                     <span class="order-status status-cancelled">Cancelled</span>
-                                </c:otherwise>
+                                </c:when>
+                                <c:otherwise>
                                     <span class="order-status">${order.status}</span>
                                 </c:otherwise>
                             </c:choose>
@@ -143,7 +143,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Ngày đặt:</strong></td>
-                                    <td><fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm"/></td>
+                                    <td><c:choose><c:when test="${order.orderDate != null}"><c:out value="${order.orderDate}"/></c:when><c:otherwise><span class="text-muted">N/A</span></c:otherwise></c:choose></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Trạng thái:</strong></td>
@@ -162,7 +162,8 @@
                                             </c:when>
                                             <c:when test="${order.paymentStatus == 'UNPAID'}">
                                                 <span class="badge bg-warning">Unpaid</span>
-                                            </c:otherwise>
+                                            </c:when>
+                                            <c:otherwise>
                                                 <span class="badge bg-secondary">${order.paymentStatus}</span>
                                             </c:otherwise>
                                         </c:choose>
@@ -179,19 +180,19 @@
                                 <tr>
                                     <td><strong>Tổng tiền:</strong></td>
                                     <td class="text-end">
-                                        <fmt:formatNumber value="${order.total}" pattern="#,##0 VND"/>
+                                        ${order.total} VND
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Giảm giá:</strong></td>
                                     <td class="text-end text-danger">
-                                        -<fmt:formatNumber value="${order.discount}" pattern="#,##0 VND"/>
+                                        -${order.discount} VND
                                     </td>
                                 </tr>
                                 <tr class="table-active">
                                     <td><strong>Tổng cộng:</strong></td>
                                     <td class="text-end text-success fw-bold fs-5">
-                                        <fmt:formatNumber value="${order.grandTotal}" pattern="#,##0 VND"/>
+                                        ${order.grandTotal} VND
                                     </td>
                                 </tr>
                             </table>
@@ -253,11 +254,11 @@
                                             </div>
                                             <div class="col-md-2 text-center">
                                                 <span class="text-muted">Đơn giá:</span><br>
-                                                <strong><fmt:formatNumber value="${detail.unitPrice}" pattern="#,##0 VND"/></strong>
+                                                <strong>${detail.unitPrice} VND</strong>
                                             </div>
                                             <div class="col-md-2 text-end">
                                                 <span class="text-success fw-bold">
-                                                    <fmt:formatNumber value="${detail.lineTotal}" pattern="#,##0 VND"/>
+                                                    ${detail.lineTotal} VND
                                                 </span>
                                             </div>
                                         </div>

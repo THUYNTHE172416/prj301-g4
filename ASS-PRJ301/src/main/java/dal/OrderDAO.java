@@ -211,17 +211,32 @@ public class OrderDAO {
     }
     
 
-public List<Order> getAllOrders() {
-    EntityManager em = emf.createEntityManager();
-    try {
-        return em.createQuery(
-                "SELECT o FROM Order o ORDER BY o.orderDate DESC",
-                Order.class
-        ).getResultList();
-    } finally {
-        em.close();
+    public EntityManagerFactory getEntityManagerFactory() {
+        return emf;
     }
-}
+    
+    public List<Order> getAllOrders() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            System.out.println("DEBUG: getAllOrders - EntityManager created");
+            List<Order> result = em.createQuery(
+                    "SELECT o FROM Order o ORDER BY o.orderDate DESC",
+                    Order.class
+            ).getResultList();
+            System.out.println("DEBUG: getAllOrders - Query executed, result size: " + (result != null ? result.size() : "null"));
+            if (result != null && !result.isEmpty()) {
+                System.out.println("DEBUG: getAllOrders - First order: " + result.get(0));
+                System.out.println("DEBUG: getAllOrders - First orderDate: " + result.get(0).getOrderDate());
+            }
+            return result;
+        } catch (Exception e) {
+            System.err.println("ERROR in getAllOrders: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
 
 // Tìm kiếm đơn hàng theo nhiều tiêu chí
 public List<Order> searchOrders(String keyword, String status, String dateFrom, String dateTo) {
