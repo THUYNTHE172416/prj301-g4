@@ -89,7 +89,7 @@ public class BookDAO {
     
     public boolean addNewBook(Book book) {
         EntityManager em = emf.createEntityManager();
-        if (!findCodeAndISBN(book)) {
+        if (findCodeAndISBN(book)) {
             em.getTransaction().begin();
             em.persist(book); // add new
             em.getTransaction().commit();

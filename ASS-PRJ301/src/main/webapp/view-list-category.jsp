@@ -28,9 +28,9 @@
                 <c:forEach var="cat" items="${data}">
                     <tr class="row">
                         <td class="col-md-1">${cat.id}</td>
-                        <td class="col-md-2">${cat.name}</td>
-                        <td class="col-md-2">${cat.slug}</td>
-                        <td class="col-md">${cat.description}</td>
+                        <td style="white-space: pre;" class="col-md-2">${cat.name}</td>
+                        <td style="white-space: pre;" class="col-md-2">${cat.slug}</td>
+                        <td style="white-space: pre;" class="col-md">${cat.description}</td>
                         <td class="col-md-2 d-flex justify-content-between">
                             <button class="btn btn-sm btn-warning"
                                     data-bs-toggle="modal"

@@ -107,27 +107,7 @@ public class EditBook extends HttpServlet {
             } catch (NumberFormatException e) {
                 error += "Giá sách phải là số hợp lệ.<br>";
             }
-
             
-            // stock quantity
-            String stockQty = request.getParameter("stockQty");
-            if (stockQty == null || stockQty.isBlank()) {
-                error += "Số lượng không được để trống.<br>";
-            }
-            Integer stockQtyBook = null;
-            try {
-                if (stockQty != null && !stockQty.isBlank()) {
-                    stockQtyBook = Integer.parseInt(stockQty);
-                    if (stockQtyBook <= 0) {
-                        error += "Số lượng phải > 0.<br>";
-                    }
-                }
-            } catch (NumberFormatException e) {
-                error += "Số lượng phải là số hợp lệ.<br>";
-            }
-
-            
-
             // category
             String categoryId = request.getParameter("categoryId");
             if (categoryId == null || categoryId.isBlank()) {
@@ -162,7 +142,6 @@ public class EditBook extends HttpServlet {
             book.setTitle(title);
             book.setIsbn(isbn);
             book.setPrice(priceBook);
-            book.setStockQty(stockQtyBook);
             book.setMinStock(book.getMinStock());
             book.setCoverUrl(coverUrl);
             book.setDescription(description);
