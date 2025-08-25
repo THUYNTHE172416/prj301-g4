@@ -47,6 +47,16 @@ public class Order {
     @Column(name = "CustomerId")
     private Long customerId;
 
+    // THÊM: Quan hệ ManyToOne tới User cho Cashier
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CashierUserId", referencedColumnName = "Id", insertable = false, updatable = false)
+    private Users cashierUser;
+
+    // THÊM: Quan hệ ManyToOne tới Customer
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CustomerId", referencedColumnName = "Id", insertable = false, updatable = false)
+    private Customer customer;
+
     // Quan hệ tới bảng nối
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderPromotion> orderPromotions = new ArrayList<>();
@@ -73,7 +83,7 @@ public class Order {
     }
 
     // Helper để đồng bộ 2 chiều
-// Helper để đồng bộ 2 chiều
+    // Helper để đồng bộ 2 chiều
     public void addPromotion(Promotion p) {
         OrderPromotion op = new OrderPromotion();
         op.setOrder(this);
@@ -86,7 +96,7 @@ public class Order {
         orderPromotions.removeIf(op -> {
             boolean match = op.getPromotion() != null && op.getPromotion().equals(p);
             if (match) {
-                p.getOrderPromotions().remove(op);
+p.getOrderPromotions().remove(op);
                 op.setOrder(null);
                 op.setPromotion(null);
             }
@@ -197,5 +207,22 @@ public class Order {
 
     public void setOrderPromotions(List<OrderPromotion> orderPromotions) {
         this.orderPromotions = orderPromotions;
+    }
+
+    // THÊM: Getter và Setter cho các mối quan hệ mới
+    public Users getCashierUser() {
+        return cashierUser;
+    }
+
+    public void setCashierUser(Users cashierUser) {
+        this.cashierUser = cashierUser;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

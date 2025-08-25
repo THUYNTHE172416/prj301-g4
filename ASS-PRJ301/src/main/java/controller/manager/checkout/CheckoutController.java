@@ -21,6 +21,9 @@ import model.Book;
 import model.CartItem;
 import model.Customer;
 import model.Order;
+import model.OrderItemInput;
+import model.CartItem;
+import model.Users;
 
 /**
  *
@@ -100,8 +103,26 @@ public class CheckoutController extends HttpServlet {
 
         String key = request.getParameter("key");
         String type = request.getParameter("type"); // "code" | "title"
-
         HttpSession session = request.getSession();
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        Users currentUser = (Users) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        Long userId = currentUser.getId();       // hoặc getUserId() tuỳ field bạn đặt
+        String role = currentUser.getRole();
+// Kiểm tra quyền
+        if (!"MANAGER".equals(role)) {
+            response.sendRedirect(request.getContextPath() + "/access-denied.jsp");
+            return;
+        }
+// nếu tới đây tức là Manager và có userId
+        System.out.println("Đăng nhập bởi userId = " + userId);
         // ✅ lấy giỏ theo CartItem, key "cart"
         List<CartItem> cart = getCart(session);
         // ✅ Lấy customer đã chọn từ session
@@ -161,13 +182,28 @@ public class CheckoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String phone = request.getParameter("phone");
         String name = request.getParameter("name");
         String action = request.getParameter("action"); // add|inc|dec|remove|clear
         String code = request.getParameter("id");
+        String payment = request.getParameter("paymentMethod");
+        HttpSession session = request.getSession();
+        Users currentUser = (Users) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        String userRole = currentUser.getRole();
+        if (!"Manager".equalsIgnoreCase(userRole) && !"admin".equalsIgnoreCase(userRole)) {
+
+            request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            request.getRequestDispatcher("/access-denied.jsp").forward(request, response);
+            return;
+        }
+        Long userId = currentUser.getId();
         OrderDAO dao = new OrderDAO();
         CustomerDAO cus = new CustomerDAO();
-        HttpSession session = request.getSession();
         List<CartItem> cart = getCart(session);
         CartItem item = findItem(cart, code); //tim san pham xem có trong giỏ hàng không
         switch (action) {
@@ -281,27 +317,29 @@ public class CheckoutController extends HttpServlet {
                 if (selected != null) {
                     customerId = selected.getId();
                 }
-
                 // Chuẩn bị Order
-                model.Order o = new model.Order();
+                Order o = new Order();
                 o.setOrderCode("ORD-" + System.currentTimeMillis());
-                o.setPaymentMethod("CASH");
-                o.setStatus("PENDING");
-                o.setPaymentStatus("UNPAID");
-                o.setCashierUserId(1L);   // sửa theo thực tế
+                if ("CASH".equals(payment)) {
+                    o.setPaymentMethod("CASH");
+                } else {
+                    o.setPaymentMethod("CARD");
+                }
+                o.setStatus("PAID");
+                o.setPaymentStatus("PAID");
+                o.setCashierUserId(userId);   // sửa theo thực tế
                 o.setCustomerId(customerId);      // sửa theo thực tế
                 o.setDiscount(0f);        // hoặc lấy từ mã KM đã áp dụng
 
                 // Map cart -> items cho DAO
-                java.util.List<model.OrderItemInput> items = new java.util.ArrayList<>();
-                for (model.CartItem ci : cart) {
+                List<OrderItemInput> items = new java.util.ArrayList<>();
+                for (CartItem ci : cart) {
                     items.add(new model.OrderItemInput(
                             ci.getBookId(),
                             ci.getQty(),
                             ci.getUnitPrice() // có thể null nếu muốn dùng giá DB
                     ));
                 }
-
                 try {
                     Order saved = dao.checkout(o, items);
 
@@ -323,20 +361,18 @@ public class CheckoutController extends HttpServlet {
         // lưu lại (nếu cần có thể set subtotal/discount vào session)
         session.setAttribute("cart", cart);
 
-            // PRG
-            response.sendRedirect("checkout");
-        }
-
-        /**
-         * Returns a short description of the servlet.
-         *
-         * @return a String containing servlet description
-         */
-        @Override
-        public String getServletInfo
-        
-            () {
-        return "Short description";
-        }// </editor-fold>
-
+        // PRG
+        response.sendRedirect("checkout");
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

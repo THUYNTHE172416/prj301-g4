@@ -37,7 +37,7 @@
     <a href="${ctx}/orders.jsp" class="${active eq 'orders' ? 'active' : ''}">🧾 Đơn hàng</a>
     <!-- Đổi sang servlet -->
     <a href="${ctx}/inventory" class="${active eq 'inventory' ? 'active' : ''}">📦 Tồn kho</a>
-    <a href="${ctx}/Report" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
+    <a href="${ctx}/reports" class="${active eq 'reports' ? 'active' : ''}">📊 Báo cáo</a>
    <a href="${ctx}/promotion" class="${active eq 'promotion' ? 'active' : ''}">🎟️ Promotion</a>
 
 </div>
