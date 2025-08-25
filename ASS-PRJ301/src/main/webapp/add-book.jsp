@@ -63,35 +63,18 @@
                         </c:forEach>
                     </select>
                 </div>
+                
                 <div class="col-md">
                     <label class="form-label fw-bold">Ảnh bìa</label>
                     <input type="text" name="coverUrl"  class="form-control" placeholder="Nhập url hình ảnh"/>
                 </div>
             </div>
 
-            <!--author-->
-            <div class="mb-3">
-                <label class="form-label fw-bold">Tác giả</label>
-                <div>
-                    <c:forEach var="author" items="${authorList}">
-                        <input name="author" type="checkbox" value="${author.id}" /> <span>${author.name}</span><br/>
-                    </c:forEach>
-                </div>
-            </div>
-
+            
             <!--description-->
             <div class="mb-3">
                 <label class="form-label fw-bold">Mô tả</label>
                 <textarea name="description" rows="4" class="form-control"></textarea>
-            </div>
-
-            <!--status-->
-            <div class="mb-3">
-                <label class="form-label fw-bold">Trạng thái</label>
-                <select name="status" class="form-select">
-                    <option value="ACTIVE">Hoạt động</option>
-                    <option value="INACTIVE">Ngừng kinh doanh</option>
-                </select>
             </div>
 
             <div class="d-flex justify-content-between">

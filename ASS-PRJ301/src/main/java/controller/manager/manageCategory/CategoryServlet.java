@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import model.Category;
+import model.Users;
 
 @WebServlet(name = "CategoryServlet", urlPatterns = {"/category", "/category/store", "/category/update"})
 public class CategoryServlet extends HttpServlet {
@@ -17,8 +18,16 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Users user = (Users) request.getSession().getAttribute("currentUser");
+        if (user == null || user.getRole().equals("STAFF")) {
+            response.sendRedirect(request.getContextPath() + "/auth/login");
+            return;
+        }
+        
         CategoryDAO categoryDAO = new CategoryDAO();
 
+        //delete
         String id = request.getParameter("id");
         String mode = request.getParameter("mode");
 
@@ -40,6 +49,13 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Users user = (Users) request.getSession().getAttribute("currentUser");
+        if (user == null || user.getRole().equals("STAFF")) {
+            response.sendRedirect(request.getContextPath() + "/auth/login");
+            return;
+        }
+        
         String action = request.getServletPath();
 
         try {
@@ -56,6 +72,7 @@ public class CategoryServlet extends HttpServlet {
                 category.setName(name);
                 category.setSlug(slug);
                 category.setDescription(description);
+                category.setStatus("ACTIVE");
                 category.setCreatedAt(creDatedAt);
                 category.setUpdatedAt(upDatedAt);
 

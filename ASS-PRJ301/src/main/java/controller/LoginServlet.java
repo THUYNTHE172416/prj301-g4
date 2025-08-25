@@ -19,6 +19,11 @@ public class LoginServlet extends HttpServlet {
     private final UserDao userDao = new UserDao();
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -40,7 +45,7 @@ public class LoginServlet extends HttpServlet {
                 if (nextUrl == null || nextUrl.trim().isEmpty()) {
                     nextUrl = "/dashboard.jsp";
                 }
-                
+
                 response.sendRedirect(request.getContextPath() + nextUrl);
                 return;
             }
@@ -51,4 +56,3 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 }
-
