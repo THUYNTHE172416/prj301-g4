@@ -18,7 +18,10 @@ public class BookController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         BookDAO bookDAO = new BookDAO();
+        List<Book> listBook = new ArrayList<>();
+        listBook = bookDAO.getAllBook();
         
+        //Delete
         String id = request.getParameter("id");
         String mode = request.getParameter("mode");
         
@@ -34,12 +37,7 @@ public class BookController extends HttpServlet{
             }
         }
         
-        
-        List<Book> listBook = new ArrayList<>();
-        listBook = bookDAO.getAllBook();
-        
-        
-        request.setAttribute("dao", bookDAO);
+
         request.setAttribute("listBook", listBook);
         request.getRequestDispatcher("book.jsp").forward(request, response);
     }
@@ -50,11 +48,10 @@ public class BookController extends HttpServlet{
         String search = request.getParameter("search");
         BookDAO bookDAO = new BookDAO();
         
-        List<Book> listBook = new ArrayList<>();
-        listBook = bookDAO.getAllBookByKeyword(search);
+        List<Book> filter = new ArrayList<>();
+        filter = bookDAO.getAllBookByKeyword(search);
         
-        request.setAttribute("dao", bookDAO);
-        request.setAttribute("listBook", listBook);
+        request.setAttribute("listBook", filter);
         request.setAttribute("search", search);
         request.getRequestDispatcher("book.jsp").forward(request, response);
     }

@@ -13,25 +13,25 @@
             <!-- Hidden ID -->
             <input type="hidden" name="bookId" value="${id}"/>
 
-            <!--code and isbn-->
+            <!--code isbn title-->
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">Mã sách</label>
                     <input type="text" name="code" value="${book.code}" class="form-control" readonly />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">ISBN</label>
                     <input type="text" name="isbn" value="${book.isbn}" class="form-control" />
                 </div>
-            </div>
-
-            <!--title and category-->
-            <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md">
                     <label class="form-label fw-bold">Tên sách</label>
                     <input type="text" name="title" value="${book.title}" class="form-control" required />
                 </div>
-                <div class="col-md-6">
+            </div>
+
+            <!--category, price, stock quantity-->
+            <div class="row mb-3">
+                <div class="col-md">
                     <label class="form-label fw-bold">Thể loại</label>
                     <select name="categoryId" class="form-select" required>
                         <c:forEach var="cat" items="${categoryList}">
@@ -41,20 +41,20 @@
                         </c:forEach>
                     </select>
                 </div>
+                <div class="col-md">
+                        <label class="form-label fw-bold">Giá bán</label>
+                        <input type="number" name="price" step="0.01" value="${book.price}" class="form-control" required />
+                    </div>
+                    <div class="col-md">
+                        <label class="form-label fw-bold">Số lượng tồn kho</label>
+                        <input type="number" name="stockQty" value="${book.stockQty}" class="form-control" required />
+                    </div>
             </div>
 
-            <!--price and stock quantity-->
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Giá bán</label>
-                    <input type="number" name="price" step="0.01" value="${book.price}" class="form-control" required />
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Số lượng tồn kho</label>
-                    <input type="number" name="stockQty" value="${book.stockQty}" class="form-control" required />
-                </div>
+
             </div>
-                
+
             <!--image-->
             <div class="mb-3">
                 <label class="form-label fw-bold">Ảnh bìa</label><br>
@@ -76,7 +76,7 @@
                     <option value="INACTIVE" ${book.status eq 'INACTIVE' ? 'selected' : ''}>Ngừng kinh doanh</option>
                 </select>
             </div>
-            
+
             <!--back and save-->
             <div class="d-flex justify-content-between">
                 <a href="/ass-g6/management-book" class="btn btn-secondary">⬅ Quay lại</a>
@@ -100,11 +100,8 @@
         Swal.fire({
             icon: 'error',
             title: 'Lỗi',
-            text: '${error}',
-            showConfirmButton: false,
-            timer: 2000
-        }).then(() => {
-            window.location.href = '/ass-g6/management-book';
+            html: '${error}',
+            showConfirmButton: true
         });
     </script>
 </c:if>
@@ -116,6 +113,8 @@
             title: 'Thành công',
             text: '${success}',
             confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = '/ass-g6/management-book';
         });
     </script>
 </c:if>

@@ -24,19 +24,19 @@ public class AddNewBook extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         CategoryDAO categoryDao = new CategoryDAO();
         List<Category> categoryList = new ArrayList<>();
-        AuthorDAO authorDAO = new AuthorDAO();
-        List<Author> authorList = new ArrayList<>();
+
         PublisherDAO publisherDAO = new PublisherDAO();
         List<Publisher> publisherList = new ArrayList<>();
         try {
             categoryList = categoryDao.getAllCategory();
-            authorList = authorDAO.getAllAuthor();
             publisherList = publisherDAO.getAllPublisher();
+
             request.setAttribute("categoryList", categoryList);
-            request.setAttribute("authorList", authorList);
             request.setAttribute("publisherList", publisherList);
+
         } catch (NumberFormatException e) {
             request.setAttribute("error", "The system error");
         }
@@ -50,120 +50,132 @@ public class AddNewBook extends HttpServlet {
         CategoryDAO categoryDao = new CategoryDAO();
         PublisherDAO publisherDAO = new PublisherDAO();
 
-        Book book = new Book();
-        StringBuilder error = new StringBuilder();
+        String error = "";
 
         try {
-            // Lấy tham số
+            // code
             String code = request.getParameter("code");
-            String isbn = request.getParameter("isbn");
-            String title = request.getParameter("title");
-            String priceStr = request.getParameter("price");
-            String stockQtyStr = request.getParameter("stockQty");
-            String minStockStr = request.getParameter("minStock");
-            String categoryIdStr = request.getParameter("categoryId");
-            String publisherIdStr = request.getParameter("publisherId");
-            String coverUrl = request.getParameter("coverUrl");
-            String[] authors = request.getParameterValues("author");
-            String description = request.getParameter("description");
-            String status = request.getParameter("status");
-
-            // Validate cơ bản (null/blank)
             if (code == null || code.isBlank()) {
-                error.append("Mã sách không được để trống.<br>");
+                error += "Mã sách không được để trống.<br>";
             }
+
+            // ma xuat ban
+            String isbn = request.getParameter("isbn");
             if (isbn == null || isbn.isBlank()) {
-                error.append("ISBN không được để trống.<br>");
+                error += "ISBN không được để trống.<br>";
             }
+
+            // book name
+            String title = request.getParameter("title");
             if (title == null || title.isBlank()) {
-                error.append("Tên sách không được để trống.<br>");
-            }
-            if (priceStr == null || priceStr.isBlank()) {
-                error.append("Giá sách không được để trống.<br>");
-            }
-            if (stockQtyStr == null || stockQtyStr.isBlank()) {
-                error.append("Số lượng không được để trống.<br>");
-            }
-            if (minStockStr == null || minStockStr.isBlank()) {
-                error.append("Tồn kho tối thiểu không được để trống.<br>");
-            }
-            if (categoryIdStr == null || categoryIdStr.isBlank()) {
-                error.append("Danh mục không được để trống.<br>");
-            }
-            if (publisherIdStr == null || publisherIdStr.isBlank()) {
-                error.append("Nhà xuất bản không được để trống.<br>");
-            }
-            if (authors == null || authors.length == 0) {
-                error.append("Phải chọn ít nhất một tác giả.<br>");
-            }
-            if (status == null || status.isBlank()) {
-                error.append("Trạng thái không được để trống.<br>");
+                error += "Tên sách không được để trống.<br>";
             }
 
-            // Parse số (nếu có giá trị)
+            // price 
+            String price = request.getParameter("price");
+            if (price == null || price.isBlank()) {
+                error += "Giá sách không được để trống.<br>";
+            }
             Float priceBook = null;
+            try {
+                if (price != null && !price.isBlank()) {
+                    priceBook = Float.parseFloat(price);
+                    if (priceBook <= 0) {
+                        error += "Giá sách phải > 0.<br>";
+                    }
+                }
+            } catch (NumberFormatException e) {
+                error += "Giá sách phải là số hợp lệ.<br>";
+            }
+
+            // stock quantity
+            String stockQty = request.getParameter("stockQty");
+            if (stockQty == null || stockQty.isBlank()) {
+                error += "Số lượng không được để trống.<br>";
+            }
             Integer stockQtyBook = null;
+            try {
+                if (stockQty != null && !stockQty.isBlank()) {
+                    stockQtyBook = Integer.parseInt(stockQty);
+                    if (stockQtyBook <= 0) {
+                        error += "Số lượng phải > 0.<br>";
+                    }
+                }
+            } catch (NumberFormatException e) {
+                error += "Số lượng phải là số hợp lệ.<br>";
+            }
+
+            // min stock
+            String minStock = request.getParameter("minStock");
+            if (minStock == null || minStock.isBlank()) {
+                error += "Tồn kho tối thiểu không được để trống.<br>";
+            }
             Integer minStockBook = null;
+            try {
+                if (minStock != null && !minStock.isBlank()) {
+                    minStockBook = Integer.parseInt(minStock);
+                    if (minStockBook <= 0) {
+                        error += "Tồn kho tối thiểu phải > 0.<br>";
+                    }
+                }
+            } catch (NumberFormatException e) {
+                error += "Tồn kho tối thiểu phải là số hợp lệ.<br>";
+            }
+
+            // kiem tra stock > min stock
+            if (error.isBlank()) {
+                if (stockQtyBook <= minStockBook) {
+                    error += "Số lượng tồn kho phải lớn hơn số lượng tồn kho tối thiểu.<br>";
+                }
+            }
+
+            // category
+            String categoryId = request.getParameter("categoryId");
+            if (categoryId == null || categoryId.isBlank()) {
+                error += "Danh mục không được để trống.<br>";
+            }
             Category category = null;
-            Publisher publisher = null;
-
             try {
-                if (priceStr != null && !priceStr.isBlank()) {
-                    priceBook = Float.parseFloat(priceStr);
-                    if (priceBook < 0) {
-                        error.append("Giá sách phải >= 0.<br>");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                error.append("Giá sách phải là số hợp lệ.<br>");
-            }
-
-            try {
-                if (stockQtyStr != null && !stockQtyStr.isBlank()) {
-                    stockQtyBook = Integer.parseInt(stockQtyStr);
-                    if (stockQtyBook < 0) {
-                        error.append("Số lượng phải >= 0.<br>");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                error.append("Số lượng phải là số hợp lệ.<br>");
-            }
-
-            try {
-                if (minStockStr != null && !minStockStr.isBlank()) {
-                    minStockBook = Integer.parseInt(minStockStr);
-                    if (minStockBook < 0) {
-                        error.append("Tồn kho tối thiểu phải >= 0.<br>");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                error.append("Tồn kho tối thiểu phải là số hợp lệ.<br>");
-            }
-
-            try {
-                if (categoryIdStr != null && !categoryIdStr.isBlank()) {
-                    category = categoryDao.getCategoryById(Integer.parseInt(categoryIdStr));
+                if (categoryId != null && !categoryId.isBlank()) {
+                    // lấy 1 đối tượng category theo id
+                    category = categoryDao.getCategoryById(Integer.parseInt(categoryId));
                     if (category == null) {
-                        error.append("Danh mục không tồn tại.<br>");
+                        error += "Danh mục không tồn tại.<br>";
                     }
                 }
             } catch (NumberFormatException e) {
-                error.append("ID danh mục không hợp lệ.<br>");
+                error += "ID danh mục không hợp lệ.<br>";
             }
 
+            //publisher
+            String publisherId = request.getParameter("publisherId");
+            if (publisherId == null || publisherId.isBlank()) {
+                error += "Nhà xuất bản không được để trống.<br>";
+            }
+            Publisher publisher = null;
             try {
-                if (publisherIdStr != null && !publisherIdStr.isBlank()) {
-                    publisher = publisherDAO.getPublisherById(Integer.parseInt(publisherIdStr));
+                if (publisherId != null && !publisherId.isBlank()) {
+                    publisher = publisherDAO.getPublisherById(Integer.parseInt(publisherId));
                     if (publisher == null) {
-                        error.append("Nhà xuất bản không tồn tại.<br>");
+                        error += "Nhà xuất bản không tồn tại.<br>";
                     }
                 }
             } catch (NumberFormatException e) {
-                error.append("ID nhà xuất bản không hợp lệ.<br>");
+                error += "ID nhà xuất bản không hợp lệ.<br>";
             }
+
+            // image
+            String coverUrl = request.getParameter("coverUrl");
+            //description
+            String description = request.getParameter("description");
+
+            //status
+            String status = "ACTIVE";
 
             // Nếu không có lỗi thì persist book
-            if (error.length() == 0) {
+            if (error.isBlank()) {
+                Book book = new Book();
+                
                 book.setCode(code);
                 book.setTitle(title);
                 book.setIsbn(isbn);
@@ -179,15 +191,16 @@ public class AddNewBook extends HttpServlet {
                 book.setCreatedAt(LocalDateTime.now());
                 book.setUpdatedAt(LocalDateTime.now());
 
-                bookDao.addNewBook(book, authors);
-
-                request.setAttribute("success", "Thêm một sách mới thành công!");
+                if (bookDao.addNewBook(book)) {
+                    request.setAttribute("success", "Thêm một sách mới thành công!");
+                } else {
+                    request.setAttribute("error", "Lỗi không thể thêm sách mới do trùng mã code hoặc isbn");
+                }
             } else {
-                request.setAttribute("error", error.toString());
+                request.setAttribute("error", error);
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); // hoặc logger.error(...)
             request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());
         }
 

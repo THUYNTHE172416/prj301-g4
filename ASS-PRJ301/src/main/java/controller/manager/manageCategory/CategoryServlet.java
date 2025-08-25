@@ -19,6 +19,7 @@ public class CategoryServlet extends HttpServlet {
             throws ServletException, IOException {
         CategoryDAO categoryDAO = new CategoryDAO();
 
+        //delete
         String id = request.getParameter("id");
         String mode = request.getParameter("mode");
 
@@ -56,6 +57,7 @@ public class CategoryServlet extends HttpServlet {
                 category.setName(name);
                 category.setSlug(slug);
                 category.setDescription(description);
+                category.setStatus("ACTIVE");
                 category.setCreatedAt(creDatedAt);
                 category.setUpdatedAt(upDatedAt);
 
