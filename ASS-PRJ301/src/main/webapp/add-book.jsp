@@ -15,15 +15,15 @@
             <div class="row mb-3">
                 <div class="col-md">
                     <label class="form-label fw-bold">Mã sách</label>
-                    <input type="text" name="code" class="form-control" placeholder="Nhập mã sách" required />
+                    <input type="text" name="code" value="${code}" class="form-control" placeholder="Nhập mã sách" required />
                 </div>
                 <div class="col-md">
                     <label class="form-label fw-bold">ISBN</label>
-                    <input type="text" name="isbn" class="form-control" placeholder="Nhập ISBN"/>
+                    <input type="text" name="isbn" value="${isbn}" class="form-control" placeholder="Nhập ISBN"/>
                 </div>
                 <div class="col-md">
                     <label class="form-label fw-bold">Tên sách</label>
-                    <input type="text" name="title" class="form-control" placeholder="Nhập tên sách" required />
+                    <input type="text" name="title" value="${title}" class="form-control" placeholder="Nhập tên sách" required />
                 </div>
             </div>
 
@@ -31,15 +31,15 @@
             <div class="row mb-3">
                 <div class="col-md">
                     <label class="form-label fw-bold">Giá bán</label>
-                    <input type="number" step="0.01" name="price" class="form-control" placeholder="Nhập giá" required />
+                    <input type="number" step="0.01" name="price" value="${price}" class="form-control" placeholder="Nhập giá" required />
                 </div>
                 <div class="col-md">
                     <label class="form-label fw-bold">Số lượng tồn kho</label>
-                    <input type="number" name="stockQty" step="1" class="form-control" placeholder="Nhập số lượng tồn kho" required />
+                    <input type="number" name="stockQty" value="${stockQty}" step="1" class="form-control" placeholder="Nhập số lượng tồn kho" required />
                 </div>
                 <div class="col-md">
                     <label class="form-label fw-bold">Số lượng tồn kho tối thiểu</label>
-                    <input type="number" name="minStock" step="1" class="form-control" placeholder="Nhập số lượng tồn kho tối thiểu" required />
+                    <input type="number" name="minStock" value="${minStock}" step="1" class="form-control" placeholder="Nhập số lượng tồn kho tối thiểu" required />
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                     <select name="categoryId" class="form-select" required>
                         <option value="">-- Chọn thể loại --</option>
                         <c:forEach var="cat" items="${categoryList}">
-                            <option value="${cat.id}">${cat.name}</option>
+                            <option value="${cat.id}" ${categoryId eq (cat.id).toString() ? "selected" : ""}>${cat.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -59,14 +59,14 @@
                     <select name="publisherId" class="form-select">
                         <option value="">-- Chọn NXB --</option>
                         <c:forEach var="pub" items="${publisherList}">
-                            <option value="${pub.id}">${pub.name}</option>
+                            <option value="${pub.id}" ${publisherId eq (pub.id).toString() ? "selected" : ""}>${pub.name}</option>
                         </c:forEach>
                     </select>
                 </div>
                 
                 <div class="col-md">
                     <label class="form-label fw-bold">Ảnh bìa</label>
-                    <input type="text" name="coverUrl"  class="form-control" placeholder="Nhập url hình ảnh"/>
+                    <input type="text" name="coverUrl"  value="${coverUrl}" class="form-control" placeholder="Nhập url hình ảnh"/>
                 </div>
             </div>
 
@@ -74,7 +74,7 @@
             <!--description-->
             <div class="mb-3">
                 <label class="form-label fw-bold">Mô tả</label>
-                <textarea name="description" rows="4" class="form-control"></textarea>
+                <textarea name="description"  rows="4" class="form-control">${description}</textarea>
             </div>
 
             <div class="d-flex justify-content-between">

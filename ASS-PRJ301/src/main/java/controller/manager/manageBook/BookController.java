@@ -24,8 +24,6 @@ public class BookController extends HttpServlet{
             return;
         }
         BookDAO bookDAO = new BookDAO();
-        List<Book> listBook = new ArrayList<>();
-        listBook = bookDAO.getAllBook();
         
         //Delete
         String id = request.getParameter("id");
@@ -41,9 +39,15 @@ public class BookController extends HttpServlet{
             } catch (Exception e) {
                 request.setAttribute("error", "Lỗi hệ thống không thể xóa sản phẩm");
             }
+            
+            request.removeAttribute("id");
+            request.removeAttribute("mode");
         }
         
-
+        
+        List<Book> listBook = new ArrayList<>();
+        listBook = bookDAO.getAllBook();
+        
         request.setAttribute("listBook", listBook);
         request.getRequestDispatcher("book.jsp").forward(request, response);
     }

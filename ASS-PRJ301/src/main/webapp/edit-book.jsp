@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
     request.setAttribute("pageTitle", "Chỉnh sửa sách");
     request.setAttribute("active", "books");
@@ -29,7 +31,9 @@
                 </div>
             </div>
 
-            <!--category, price, stock quantity-->
+            <fmt:formatNumber value="${book.price}" type="number" groupingUsed="false" maxFractionDigits="2" minFractionDigits="2" var="formattedPrice" />
+
+            <!--category, price-->
             <div class="row mb-3">
                 <div class="col-md">
                     <label class="form-label fw-bold">Thể loại</label>
@@ -41,18 +45,11 @@
                         </c:forEach>
                     </select>
                 </div>
+
                 <div class="col-md">
-                        <label class="form-label fw-bold">Giá bán</label>
-                        <input type="number" name="price" step="0.01" value="${book.price}" class="form-control" required />
-                    </div>
-                    <div class="col-md">
-                        <label class="form-label fw-bold">Số lượng tồn kho</label>
-                        <input type="number" name="stockQty" value="${book.stockQty}" class="form-control" required />
-                    </div>
-            </div>
-
-            <div class="row mb-3">
-
+                    <label class="form-label fw-bold">Giá bán</label>
+                    <input type="number" name="price" step="0.01" value="${formattedPrice}" class="form-control" required />
+                </div>
             </div>
 
             <!--image-->

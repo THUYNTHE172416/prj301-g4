@@ -18,13 +18,13 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Users user = (Users) request.getSession().getAttribute("currentUser");
         if (user == null || user.getRole().equals("STAFF")) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
         }
-        
+
         CategoryDAO categoryDAO = new CategoryDAO();
 
         //delete
@@ -49,19 +49,20 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Users user = (Users) request.getSession().getAttribute("currentUser");
         if (user == null || user.getRole().equals("STAFF")) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
         }
-        
+
         String action = request.getServletPath();
 
         try {
             CategoryDAO categoryDAO = new CategoryDAO();
             if (action.equals("/category/store")) {
-                Category category = new Category();
+                String error = "";
+
                 // Xử lý hành động "Thêm"
                 String name = request.getParameter("name");
                 String slug = request.getParameter("slug");
@@ -69,6 +70,15 @@ public class CategoryServlet extends HttpServlet {
                 LocalDateTime creDatedAt = LocalDateTime.now();
                 LocalDateTime upDatedAt = LocalDateTime.now();
 
+                if (name == null || name.trim().isBlank()) {
+                    error += "Tên không được để trống.<br/>";
+                }
+
+                if (slug == null || slug.trim().isBlank()) {
+                    error += "Slug không được để trống.<br/>";
+                }
+
+                Category category = new Category();
                 category.setName(name);
                 category.setSlug(slug);
                 category.setDescription(description);
@@ -76,11 +86,15 @@ public class CategoryServlet extends HttpServlet {
                 category.setCreatedAt(creDatedAt);
                 category.setUpdatedAt(upDatedAt);
 
-                boolean success = categoryDAO.addNewCategory(category);
-                if (success) {
-                    request.setAttribute("success", "Thêm danh mục mới thành công");
+                if (error.isBlank()) {
+                    boolean success = categoryDAO.addNewCategory(category);
+                    if (success) {
+                        request.setAttribute("success", "Thêm danh mục mới thành công.<br/>");
+                    } else {
+                        request.setAttribute("error", "Lỗi hệ thống không thể thêm danh mục mới do trùng tên danh mục hoặc slug.<br/>");
+                    }
                 } else {
-                    request.setAttribute("error", "Lỗi hệ thống không thể thêm danh mục mới do trùng tên danh mục hoặc slug");
+                    request.setAttribute("error", error);
                 }
             } else if (action.equals("/category/update")) {
                 int id = Integer.parseInt(request.getParameter("id"));

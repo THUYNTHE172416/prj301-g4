@@ -52,13 +52,13 @@ public class AddNewBook extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Users user = (Users) request.getSession().getAttribute("currentUser");
         if (user == null || user.getRole().equals("STAFF")) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
         }
-        
+
         BookDAO bookDao = new BookDAO();
         CategoryDAO categoryDao = new CategoryDAO();
         PublisherDAO publisherDAO = new PublisherDAO();
@@ -188,7 +188,7 @@ public class AddNewBook extends HttpServlet {
             // Nếu không có lỗi thì persist book
             if (error.isBlank()) {
                 Book book = new Book();
-                
+
                 book.setCode(code);
                 book.setTitle(title);
                 book.setIsbn(isbn);
@@ -212,6 +212,17 @@ public class AddNewBook extends HttpServlet {
             } else {
                 request.setAttribute("error", error);
             }
+
+            request.setAttribute("code", code);
+            request.setAttribute("isbn", isbn);
+            request.setAttribute("title", title);
+            request.setAttribute("price", price);
+            request.setAttribute("stockQty", stockQty);
+            request.setAttribute("minStock", minStock);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("publisherId", publisherId);
+            request.setAttribute("coverUrl", coverUrl);
+            request.setAttribute("description", description);
 
         } catch (Exception e) {
             request.setAttribute("error", "Lỗi hệ thống: " + e.getMessage());

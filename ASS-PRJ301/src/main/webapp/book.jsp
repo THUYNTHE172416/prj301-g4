@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
     request.setAttribute("pageTitle", "Quản lý sách");
     request.setAttribute("active", "books");
@@ -57,7 +59,9 @@
                 <td>${c.category.name}</td>
 
                 <!--price-->
-                <td class="fw-bold text-success">${c.price}₫</td>
+                <td class="fw-bold text-success">
+                    <fmt:formatNumber value="${c.price}" type="number" groupingUsed="true" maxFractionDigits="0"/>₫
+                </td>
 
                 <!--stock quantity-->
                 <td>
