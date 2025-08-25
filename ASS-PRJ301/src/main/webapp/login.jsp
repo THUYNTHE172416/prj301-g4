@@ -44,12 +44,8 @@
             <select id="role" name="role" class="form-select">
                   <option value="STAFF" selected>Nhân viên (STAFF)</option>
                 <option value="MANAGER">Chủ cửa hàng (MANAGER)</option>
-                <option value="ADMIN">Quản lý hệ thống (ADMIN)</option>
             </select>
           </div>
-
-        
-
           <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
         </form>
 

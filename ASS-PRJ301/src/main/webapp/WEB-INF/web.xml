@@ -85,7 +85,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReportServlet</servlet-name>
-        <url-pattern>/Report</url-pattern>
+        <url-pattern>/reports</url-pattern>
     </servlet-mapping>
 
 

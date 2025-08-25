@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -6,6 +5,102 @@
     request.setAttribute("pageTitle", "Báo cáo");
     request.setAttribute("active", "reports");
 %>
+<style>
+  /* Font & nền */
+body {
+    background: #f4f6f9;
+    font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Tiêu đề */
+h2 {
+    font-weight: 700;
+    color: #212529;
+    letter-spacing: -0.5px;
+}
+
+/* Card */
+.card {
+    border: none;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Card header */
+.card-header {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: #fff;
+    border-bottom: none;
+}
+
+/* Table */
+.table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead {
+    background: #f1f3f5;
+}
+
+.table thead th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #495057;
+    text-transform: uppercase;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+    transition: background 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+    background: #f9fafc;
+}
+
+/* Ô bảng */
+.table td, .table th {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+}
+
+/* Số tiền */
+.money, td:last-child {
+    font-weight: 600;
+    color: #198754;
+}
+
+/* Footer */
+footer {
+    background: #212529;
+    color: #adb5bd;
+    border-top: 1px solid rgba(255,255,255,.1);
+    font-size: 0.85rem;
+}
+
+/* Responsive bảng */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+</style>
+
 <%@ include file="view/header.jsp" %>
 
 <h2 class="mb-4">📊 Báo cáo</h2>
@@ -70,7 +165,7 @@
                         </tbody>
                     </table>
                 </c:when>
-                <c:otherwise>
+<c:otherwise>
                     <div class="text-muted text-center p-3">Không có dữ liệu.</div>
                 </c:otherwise>
             </c:choose>
@@ -141,7 +236,7 @@
                         </c:otherwise>
                     </c:choose>
                 </tbody>
-            </table>
+</table>
         </div>
     </div>
 </div>

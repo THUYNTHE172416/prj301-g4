@@ -1,21 +1,18 @@
-
 package model;
 
 import java.io.Serializable;
+import java.math.BigDecimal; // Thêm import này
 
 public class ReportDto implements Serializable {
 
     private String title;
-    // Sửa: Thay Long bằng long (kiểu nguyên thủy)
     private long quantity;
-    // Sửa: Thay Double bằng double (kiểu nguyên thủy)
-    private double lineTotal;
+    private BigDecimal lineTotal; // Thay đổi kiểu dữ liệu thành BigDecimal
 
     public ReportDto() {
     }
 
-    // Constructor để ánh xạ kết quả truy vấn JPQL
-    public ReportDto(String title, long quantity, double lineTotal) {
+    public ReportDto(String title, long quantity, BigDecimal lineTotal) {
         this.title = title;
         this.quantity = quantity;
         this.lineTotal = lineTotal;
@@ -38,19 +35,11 @@ public class ReportDto implements Serializable {
         this.quantity = quantity;
     }
 
-    public double getLineTotal() {
+    public BigDecimal getLineTotal() {
         return lineTotal;
     }
 
-    public void setLineTotal(double lineTotal) {
+    public void setLineTotal(BigDecimal lineTotal) {
         this.lineTotal = lineTotal;
     }
 }
-
-
-
-
-
-
-
-

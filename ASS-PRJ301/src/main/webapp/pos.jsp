@@ -252,7 +252,21 @@
                     <c:if test="${not empty discountLabel}">
                         <div class="text-muted small mt-1">${discountLabel}</div>
                     </c:if>
-
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Phương thức thanh toán</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="CASH" >
+                            <label class="form-check-label">
+                                Tiền mặt
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="bank" value="CARD">
+                            <label class="form-check-label">
+                                Chuyển khoản
+                            </label>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <span>Tạm tính</span>
                         <strong class="money"><fmt:formatNumber value="${subtotal}" type="number"/> đ</strong>
