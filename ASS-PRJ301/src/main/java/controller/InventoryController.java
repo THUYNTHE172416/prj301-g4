@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import model.Book;
+import model.Users;
 
 @WebServlet(name = "InventoryController", urlPatterns = {"/inventory"})
 public class InventoryController extends HttpServlet {
@@ -25,8 +26,21 @@ public class InventoryController extends HttpServlet {
         HttpSession sess = request.getSession();
 
         // Lấy filter từ query hoặc fallback session (để không cần thêm hidden input trong JSP)
+        Users currentUser = (Users) sess.getAttribute("currentUser");
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        // 2) Chỉ cho manager/admin
+        String role = currentUser.getRole();
+        if (!"manager".equalsIgnoreCase(role) && !"admin".equalsIgnoreCase(role)) {
+            request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            request.getRequestDispatcher("/access-denied.jsp").forward(request, response);
+            return;
+        }
         String name = request.getParameter("name");
         String status = request.getParameter("status"); // "", "low", "ok"
+        String clear = request.getParameter("clear");
 
         if (name == null) {
             name = (String) sess.getAttribute("inv_name");
@@ -39,7 +53,12 @@ public class InventoryController extends HttpServlet {
         } else {
             sess.setAttribute("inv_status", status);
         }
-
+        if ("1".equals(clear)) {
+            sess.removeAttribute("inv_name");
+            sess.removeAttribute("inv_status");
+            response.sendRedirect(request.getContextPath() + "/inventory");
+            return;
+        }
         // Chuẩn hóa status hợp lệ
         if (status != null && !(status.isBlank()
                 || "low".equalsIgnoreCase(status)
@@ -68,10 +87,14 @@ public class InventoryController extends HttpServlet {
 
         // Ưu tiên đọc từ form; nếu không có thì lấy từ session để giữ filter sau POST
         String keepName = request.getParameter("keepName");
-        if (keepName == null) keepName = (String) sess.getAttribute("inv_name");
+        if (keepName == null) {
+            keepName = (String) sess.getAttribute("inv_name");
+        }
 
         String keepStatus = request.getParameter("keepStatus");
-        if (keepStatus == null) keepStatus = (String) sess.getAttribute("inv_status");
+        if (keepStatus == null) {
+            keepStatus = (String) sess.getAttribute("inv_status");
+        }
 
         StringBuilder keep = new StringBuilder();
         if (keepName != null && !keepName.isBlank()) {
@@ -79,7 +102,7 @@ public class InventoryController extends HttpServlet {
         }
         if (keepStatus != null && !keepStatus.isBlank()) {
             keep.append(keep.length() == 0 ? "?" : "&")
-                .append("status=").append(keepStatus);
+                    .append("status=").append(keepStatus);
         }
 
         try {

@@ -23,8 +23,7 @@
         </div>
 
         <div class="col-auto">
-            <button class="btn btn-dark">Lọc</button>
-            <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/inventory">Xóa lọc</a>
+            <button class="btn btn-dark">Lọc</button>           
     </div>
 </form>
 
