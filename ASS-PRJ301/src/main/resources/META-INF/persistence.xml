@@ -23,7 +23,6 @@
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=bookstore4;encrypt=true;trustServerCertificate=true"/>
-
             <property name="jakarta.persistence.jdbc.user" value="sa"/>
             <property name="jakarta.persistence.jdbc.password" value="123"/>
 
@@ -32,6 +31,15 @@
             <property name="hibernate.hbm2ddl.auto" value="none"/> <!-- vì DB đã tạo sẵn -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.connection.auto_close" value="true"/>
+            <property name="hibernate.connection.release_mode" value="after_transaction"/>
+            <property name="hibernate.jdbc.batch_size" value="20"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.fetch_size" value="20"/>
+            <property name="hibernate.jdbc.use_get_generated_keys" value="true"/>
+            <property name="hibernate.jdbc.use_scrollable_resultset" value="true"/>
+            <property name="hibernate.jdbc.use_streams_for_binary" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
