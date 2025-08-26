@@ -156,11 +156,11 @@ public class CheckoutController extends HttpServlet {
                 listBook = dao.searchByTitle(key);
             }
         } else {
-            listBook = bdao.getAllBook();
+//            listBook = bdao.getAllBook();
         }
 
         // ✅ attributes cho JSP
-        request.setAttribute("listBook", listBook);
+//        request.setAttribute("listBook", listBook);
         request.setAttribute("cart", cart);
         request.setAttribute("subtotal", subtotal);
         request.setAttribute("discount", discount);

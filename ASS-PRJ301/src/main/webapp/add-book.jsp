@@ -63,19 +63,31 @@
                         </c:forEach>
                     </select>
                 </div>
-                
+
                 <div class="col-md">
                     <label class="form-label fw-bold">Ảnh bìa</label>
                     <input type="text" name="coverUrl"  value="${coverUrl}" class="form-control" placeholder="Nhập url hình ảnh"/>
                 </div>
             </div>
 
-            
-            <!--description-->
+
             <div class="mb-3">
                 <label class="form-label fw-bold">Mô tả</label>
-                <textarea name="description"  rows="4" class="form-control">${description}</textarea>
+                <textarea id="description" name="description">${description}</textarea>
             </div>
+
+            <!-- TinyMCE -->
+            <script src="https://cdn.tiny.cloud/1/ai64nf3oo0lpgszcbxi39br3e9733ffyc3rutwsxwsr4oyno/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+            <script>
+                tinymce.init({
+                    selector: '#description',
+                    plugins: 'link image code lists table',
+                    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+                    menubar: 'file edit view insert format tools',
+                    height: 300
+                });
+            </script>
+
 
             <div class="d-flex justify-content-between">
                 <a href="/ass-g6/management-book" class="btn btn-secondary">⬅ Quay lại</a>
@@ -96,12 +108,12 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <c:if test="${not empty error}">
     <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            html: '${error}',
-            confirmButtonText: 'OK'
-        });
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    html: '${error}',
+                    confirmButtonText: 'OK'
+                });
     </script>
 </c:if>
 <c:if test="${not empty success}">

@@ -58,8 +58,14 @@ public class CategoryServlet extends HttpServlet {
 
         String action = request.getServletPath();
 
+        //
+        
         try {
+            
             CategoryDAO categoryDAO = new CategoryDAO();
+            
+            //
+            
             if (action.equals("/category/store")) {
                 String error = "";
 
@@ -89,7 +95,7 @@ public class CategoryServlet extends HttpServlet {
                 if (error.isBlank()) {
                     boolean success = categoryDAO.addNewCategory(category);
                     if (success) {
-                        request.setAttribute("success", "Thêm danh mục mới thành công.<br/>");
+                        request.setAttribute("success", "Thêm danh mục mới thành công.");
                     } else {
                         request.setAttribute("error", "Lỗi hệ thống không thể thêm danh mục mới do trùng tên danh mục hoặc slug.<br/>");
                     }

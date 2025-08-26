@@ -6,10 +6,7 @@ package dal;
 
 import jakarta.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import model.Author;
 import model.Book;
-import model.BookAuthor;
 
 /**
  *
@@ -20,15 +17,19 @@ public class BookDAO {
     // khoi tao 1 entity manager factory de tao cac entity manager
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SUMMER2025");
 
-    public List<Book> getAllBook() {
-        // khoi tao entity manager de thao tac voi db
+    public int getTotalBooks() {
         EntityManager em = emf.createEntityManager();
-        // lay het tat ca giu lieu bang book
-        List<Book> data = em.createQuery(
-                "SELECT b FROM Book b WHERE b.status = :s", Book.class)
-                .setParameter("s", "ACTIVE")
-                .getResultList();
+        Long count = em.createQuery("select count(b) from Book b", Long.class).getSingleResult();
+        em.close();
+        return count.intValue();
+    }
 
+    public List<Book> getAllBook(int page, int pageSize) {
+        EntityManager em = emf.createEntityManager();
+        List<Book> data = em.createQuery("SELECT b FROM Book b", Book.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
         em.close();
         return data;
     }
@@ -60,8 +61,19 @@ public class BookDAO {
         em.close();
     }
 
+    public boolean findCode(String code) {
+        EntityManager em = emf.createEntityManager();
+        List<Book> data = em.createQuery("SELECT b FROM Book b "
+                + "WHERE (b.code = :c )",
+                Book.class)
+                .setParameter("c", code)
+                .getResultList();
+
+        return data.size() > 0;
+    }
+
     public boolean updateBook(Book book) {
-        if (!findCodeAndISBN(book)) {
+        if (!findCodeAndISBN(book) && findCode(book.getCode())) {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
             em.merge(book); // update
@@ -72,24 +84,24 @@ public class BookDAO {
         return false;
     }
 
-    
     public boolean findCodeAndISBN(Book b) {
         EntityManager em = emf.createEntityManager();
         List<Book> data = em.createQuery("SELECT b FROM Book b "
-                + "WHERE (b.code = :c or b.isbn = :isbn) AND b.id <> :id",
+                + "WHERE (b.code = :c or b.isbn = :isbn or b.title = :title) AND b.id <> :id",
                 Book.class)
                 .setParameter("c", b.getCode())
                 .setParameter("isbn", b.getIsbn())
-                .setParameter("id", b.getId())
+                .setParameter("title", b.getTitle().trim())
+                .setParameter("id", b.getId() == null ? -1L : b.getId())
                 .getResultList();
 
         return data.size() > 0;
     }
 
-    
     public boolean addNewBook(Book book) {
         EntityManager em = emf.createEntityManager();
-        if (findCodeAndISBN(book)) {
+        boolean check = findCodeAndISBN(book);
+        if (!check) {
             em.getTransaction().begin();
             em.persist(book); // add new
             em.getTransaction().commit();
@@ -99,7 +111,6 @@ public class BookDAO {
         return false;
     }
 
-    
     public List<Book> getAllBookByKeyword(String search) {
         // khoi tao entity manager de thao tac voi db
         EntityManager em = emf.createEntityManager();

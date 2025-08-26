@@ -12,6 +12,8 @@
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">➕ Thêm thể loại</button>
 </div>
 
+
+
 <div class="card shadow-sm">
     <div class="card-body">
         <table class="table table-bordered table-striped">
